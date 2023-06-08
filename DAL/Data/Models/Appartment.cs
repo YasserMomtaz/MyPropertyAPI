@@ -19,8 +19,11 @@ namespace DAL.Data.Models
         
         public string UserId { get; set; }
         [ForeignKey("Broker")]
-        public string? BrokerId { get; set; }
 
+        //make it null in db
+        public string? BrokerId { get; set; }
+        
+        //make it null in db
         [ForeignKey("Admin")]
         public string? AdminId { get; set; }
         
@@ -39,10 +42,10 @@ namespace DAL.Data.Models
         public bool? Pending { get; set; }
 
 
-        public DateTime AdDate { get; set; }
-        public int Bedrooms { get; set; }
-        public int Bathrooms { get; set; }
-        public int ViewsCounter { get; set; }
+        public DateTime? AdDate { get; set; }
+        public int? Bedrooms { get; set; }
+        public int? Bathrooms { get; set; }
+        public int? ViewsCounter { get; set; }
        
         public User User { get; set; }
         public Broker Broker { get; set; }
