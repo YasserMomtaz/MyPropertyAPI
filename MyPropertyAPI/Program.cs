@@ -1,6 +1,10 @@
 
 using DAL.Data.Context;
+using DAL.Repos.Users;
 using Microsoft.EntityFrameworkCore;
+using BL.Mangers.Users;
+using Microsoft.AspNetCore.Identity;
+using DAL.Data.Models;
 
 namespace MyPropertyAPI
 {
@@ -20,6 +24,20 @@ namespace MyPropertyAPI
             var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
             builder.Services.AddDbContext<MyProperyContext>(options =>
                 options.UseSqlServer(connectionString));
+            builder.Services.AddScoped<IUsersRepo,UsersRepo>();
+            builder.Services.AddScoped<IUersManger,UsersManger >();
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+
+                options.User.RequireUniqueEmail = true;
+            })
+    .AddEntityFrameworkStores<MyProperyContext>();
+
+
 
             var app = builder.Build();
 
