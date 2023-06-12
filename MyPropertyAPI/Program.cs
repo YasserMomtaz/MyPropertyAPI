@@ -21,13 +21,15 @@ namespace MyPropertyAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //Database
             var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
             builder.Services.AddDbContext<MyProperyContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddScoped<IUsersRepo,UsersRepo>();
             builder.Services.AddScoped<IUersManger,UsersManger >();
 
-            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            //Registration  (msht8ltsh 8er lma 5letha user)
+            builder.Services.AddIdentity<User,IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
@@ -35,7 +37,7 @@ namespace MyPropertyAPI
 
                 options.User.RequireUniqueEmail = true;
             })
-    .AddEntityFrameworkStores<MyProperyContext>();
+            .AddEntityFrameworkStores<MyProperyContext>();
 
 
 
