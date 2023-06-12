@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using BL.Mangers.Users;
 using Microsoft.AspNetCore.Identity;
 using DAL.Data.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MyPropertyAPI
 {
@@ -28,6 +30,7 @@ namespace MyPropertyAPI
             builder.Services.AddScoped<IUsersRepo,UsersRepo>();
             builder.Services.AddScoped<IUersManger,UsersManger >();
 
+
             //Registration  (msht8ltsh 8er lma 5letha user)
             builder.Services.AddIdentity<User,IdentityRole>(options =>
             {
@@ -38,6 +41,27 @@ namespace MyPropertyAPI
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<MyProperyContext>();
+
+            //verify Token
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Cool";
+                options.DefaultChallengeScheme = "Cool";
+            })
+            .AddJwtBearer("Cool", options =>
+            {
+                string keyString = builder.Configuration.GetValue<string>("SecretKey") ?? string.Empty;
+                var keyInBytes = Encoding.ASCII.GetBytes(keyString);
+                var key = new SymmetricSecurityKey(keyInBytes);
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = key,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
+
 
 
 
@@ -51,7 +75,7 @@ namespace MyPropertyAPI
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
