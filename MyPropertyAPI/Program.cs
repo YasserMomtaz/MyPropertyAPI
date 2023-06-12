@@ -1,5 +1,7 @@
 
+using BL.Mangers;
 using DAL.Data.Context;
+using DAL.Repos.Apartment;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyPropertyAPI
@@ -21,6 +23,9 @@ namespace MyPropertyAPI
             builder.Services.AddDbContext<MyProperyContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddScoped<IApartmentRepo, ApartmentRepo>();
+            builder.Services.AddScoped<IapartmentManger, ApartmentManger>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

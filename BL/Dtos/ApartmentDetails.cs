@@ -1,17 +1,13 @@
-﻿using DAL.Data.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BL.Dtos
 {
-    public class ApartmentList
+    public class ApartmentDetails
     {
-        [Key]
         public int Id { get; set; }
         public string Title { get; set; }
 
@@ -25,12 +21,12 @@ namespace BL.Dtos
 
         public string City { get; set; }
         public int Area { get; set; }
-        public string MiniDescription { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
 
 
         public DateTime AdDate { get; set; }
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
-
     }
 }
