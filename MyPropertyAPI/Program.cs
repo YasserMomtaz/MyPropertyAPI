@@ -1,4 +1,8 @@
 
+using BL.Managers.PendingProperty;
+using DAL.Data.Context;
+using DAL.Repos.PendingProperty;
+
 using BL.Mangers;
 using DAL.Data.Context;
 
@@ -12,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DAL.Data.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 
 namespace MyPropertyAPI
 {
@@ -59,6 +64,10 @@ namespace MyPropertyAPI
             })
             .AddEntityFrameworkStores<MyProperyContext>();
 
+
+            builder.Services.AddScoped<IPendingPropertyRepo,PendingPropertyRepo>();
+            builder.Services.AddScoped<IPendingPropertyManager, PendingPropertyManager>();
+
             //verify Token
             builder.Services.AddAuthentication(options =>
             {
@@ -85,6 +94,7 @@ namespace MyPropertyAPI
             builder.Services.AddScoped<IApartmentRepo, ApartmentRepo>();
             builder.Services.AddScoped<IapartmentManger, ApartmentManger>();
             
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
