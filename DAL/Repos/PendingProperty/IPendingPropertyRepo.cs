@@ -12,7 +12,7 @@ namespace DAL.Repos.PendingProperty
     {
         IEnumerable<Appartment> GetAll();
         Appartment? GetById(int id);
-        void Delete(Appartment appartment);
+        void Delete(int id);
         void Accept (int id);
         int SaveChanges();
     }

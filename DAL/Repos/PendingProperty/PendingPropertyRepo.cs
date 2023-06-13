@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Repos.PendingProperty
 {
-    public class PendingProperty : IPendingPropertyRepo
+    public class PendingPropertyRepo : IPendingPropertyRepo
     {
         private readonly MyProperyContext _context;
 
-        public PendingProperty(MyProperyContext context)
+        public PendingPropertyRepo(MyProperyContext context)
         {
             _context=context;
         }
@@ -26,21 +26,25 @@ namespace DAL.Repos.PendingProperty
             {
                 appartment.Pending = false;
             }
+
         }
 
-        public void Delete(Appartment appartment)
+        public void Delete(int id)
         {
-            _context.Appartments.Remove(appartment);
+            var appartmentt= _context.Appartments.Find(id);
+            if(appartmentt != null) { _context.Appartments.Remove(appartmentt); }
+
+            
         }
 
         public Appartment? GetById(int id)
         {
-            return _context.Appartments.Find(id);
+            return _context.Appartments.Include(a=>a.User).FirstOrDefault(a=>a.Id==id);
         }
 
         public IEnumerable<Appartment> GetAll()
         {
-            return _context.Appartments.Where(d=> d.Pending == true).AsNoTracking();
+            return _context.Appartments.Include(a=>a.User).Where(d=> d.Pending == true).AsNoTracking();
         }
 
         public int SaveChanges()

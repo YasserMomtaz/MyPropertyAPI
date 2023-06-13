@@ -1,6 +1,9 @@
 
+using BL.Managers.PendingProperty;
 using DAL.Data.Context;
+using DAL.Repos.PendingProperty;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace MyPropertyAPI
 {
@@ -21,6 +24,8 @@ namespace MyPropertyAPI
             builder.Services.AddDbContext<MyProperyContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddScoped<IPendingPropertyRepo,PendingPropertyRepo>();
+            builder.Services.AddScoped<IPendingPropertyManager, PendingPropertyManager>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
