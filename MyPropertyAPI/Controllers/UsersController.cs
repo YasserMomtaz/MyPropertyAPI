@@ -3,6 +3,8 @@ using BL.Dtos.UserDtos;
 using BL.Mangers.Users;
 using DAL.Data.Models;
 using DAL.Repos.Users;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,7 @@ namespace MyPropertyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAll")]
     public class UsersController : ControllerBase
     {
         private readonly IUersManger _UsersManger;
@@ -27,6 +30,8 @@ namespace MyPropertyAPI.Controllers
             UserManagerFromPackage = usermanger;
             _configuration = configuration;
         }
+
+       // [Authorize]
         [HttpPost]
         [Route("AddAppartement")]
 
@@ -34,10 +39,10 @@ namespace MyPropertyAPI.Controllers
         {
            
 
-            var user = await UserManagerFromPackage.GetUserAsync(User);
+           // var user = await UserManagerFromPackage.GetUserAsync(User);
 
 
-            NewAppartement.UserId = user.Id;
+            //NewAppartement.UserId = user.Id;
 
             _UsersManger.AddAppartement(NewAppartement);
 

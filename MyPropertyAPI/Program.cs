@@ -30,6 +30,17 @@ namespace MyPropertyAPI
             builder.Services.AddScoped<IUsersRepo,UsersRepo>();
             builder.Services.AddScoped<IUersManger,UsersManger >();
 
+            //cors
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", cors =>
+                {
+                    cors.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
 
             //Registration  (msht8ltsh 8er lma 5letha user)
             builder.Services.AddIdentity<User,IdentityRole>(options =>
@@ -39,6 +50,7 @@ namespace MyPropertyAPI
                 options.Password.RequireDigit = false;
 
                 options.User.RequireUniqueEmail = true;
+                
             })
             .AddEntityFrameworkStores<MyProperyContext>();
 
@@ -73,7 +85,7 @@ namespace MyPropertyAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
