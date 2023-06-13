@@ -17,7 +17,6 @@ namespace MyPropertyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowAll")]
     public class UsersController : ControllerBase
     {
         private readonly IUersManger _UsersManger;
@@ -34,15 +33,12 @@ namespace MyPropertyAPI.Controllers
        // [Authorize]
         [HttpPost]
         [Route("AddAppartement")]
-
         public async Task<ActionResult> AddAppartement(SellingAppartementDto NewAppartement)
         {
-           
 
-           // var user = await UserManagerFromPackage.GetUserAsync(User);
+            var user = await UserManagerFromPackage.GetUserAsync(User);
 
-
-            //NewAppartement.UserId = user.Id;
+            NewAppartement.UserId = user.Id;
 
             _UsersManger.AddAppartement(NewAppartement);
 
