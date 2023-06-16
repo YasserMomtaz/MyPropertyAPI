@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using DAL.Data.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using Microsoft.Extensions.FileProviders;
 
 namespace MyPropertyAPI
 {
@@ -41,6 +41,11 @@ namespace MyPropertyAPI
             builder.Services.AddScoped<IUersManger,UsersManger >();
 
             //cors
+            builder.Services.AddCors(options => options.AddPolicy("all", p => p.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()));
+
+
+
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", cors =>
@@ -96,6 +101,15 @@ namespace MyPropertyAPI
             
 
             var app = builder.Build();
+
+            app.UseCors("all");
+
+            var staticFilesPath = Path.Combine(Environment.CurrentDirectory, "Photos");
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
+                RequestPath = "/Photos"
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -36,9 +36,9 @@ namespace MyPropertyAPI.Controllers
         public async Task<ActionResult> AddAppartement(SellingAppartementDto NewAppartement)
         {
 
-            var user = await UserManagerFromPackage.GetUserAsync(User);
+            //var user = await UserManagerFromPackage.GetUserAsync(User);
 
-            NewAppartement.UserId = user.Id;
+            //NewAppartement.UserId = user.Id;
 
             _UsersManger.AddAppartement(NewAppartement);
 
