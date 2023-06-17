@@ -29,5 +29,7 @@ namespace BL.Dtos.UserDtos
         public DateTime AdDate { get; set; }
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
+
+        public string[] PhotoUrl { get; set; }
     }
 }

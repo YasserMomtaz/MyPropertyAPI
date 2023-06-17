@@ -44,7 +44,8 @@ namespace DAL.Repos.PendingProperty
 
         public IEnumerable<Appartment> GetAll()
         {
-            return _context.Appartments.Include(a=>a.User).Where(d=> d.Pending == true).AsNoTracking();
+            var apartments = _context.Appartments.Include(a => a.User).Where(d => d.Pending == true);
+            return apartments;
         }
 
         public int SaveChanges()

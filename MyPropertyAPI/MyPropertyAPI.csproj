@@ -30,4 +30,8 @@
     <ProjectReference Include="..\BL\BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Photos\" />
+  </ItemGroup>
+
 </Project>

@@ -3,27 +3,32 @@ using DAL.Data.Models;
 
 namespace DAL.Repos.Users
 {
-	public class UsersRepo : IUsersRepo
-	{
-		private readonly MyProperyContext Context;
 
-		public UsersRepo(MyProperyContext context)
-		{
-			Context = context;
-		}
+    public class UsersRepo : IUsersRepo
+    {
+        private readonly MyProperyContext Context;
 
-		public void AddAppatrtement(Appartment NewAppartement)
-		{
+        public UsersRepo(MyProperyContext context)
+        {
+            Context = context;
+        }
 
-			Context.Appartments.Add(NewAppartement);
-		}
+        public void AddAppatrtement(Appartment NewAppartement, string[] photos)
+        {
+            
+           Context.Appartments.Add(NewAppartement);
+            SaveChanges();
+            foreach (var item in photos)
+            {
+                var appartementPhoto = new Photo { ApartmentId = NewAppartement.Id, PhotoUrl = item };
+                Context.Photo.Add(appartementPhoto);
+            }
+            SaveChanges();
+        }
+        public int  SaveChanges()
+        {
+            return Context.SaveChanges();
+        }
+    }
 
-
-
-		public int SaveChanges()
-		{
-			return Context.SaveChanges();
-		}
-
-	}
 }
