@@ -12,9 +12,11 @@ namespace BL.Dtos
 
 		public string? BrokerEmail { get; set; }
 
-		public int? MaxPrice { get; set; }
 
-		public string? Address { get; set; }
+        public int? MaxPrice { get; set; }
+      
+        public string? Address { get; set; }
+
 
 		public string? City { get; set; }
 		public int? Area { get; set; }
@@ -23,5 +25,10 @@ namespace BL.Dtos
 		public int? Bedrooms { get; set; }
 		public int? Bathrooms { get; set; }
 
-	}
+        public DateTime? AdDate { get; set; }
+        public int? Bedrooms { get; set; }
+        public int? Bathrooms { get; set; }
+
+    }
+
 }

@@ -4,6 +4,7 @@ using DAL.Repos.Apartment;
 
 namespace BL.Mangers
 {
+
 	public class ApartmentManger : IapartmentManger
 	{
 		IApartmentRepo _apartmentRepo;
@@ -33,6 +34,19 @@ namespace BL.Mangers
 			}).ToList();
 
 		}
+    
+    public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
+        {
+            IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice);
+
+            return result.Select(a => new ApartmentList {
+            
+            City = a.City,
+            Address = a.Address,
+            Area = a.Area,
+            MaxPrice = a.MaxPrice, 
+            
+            }).ToList();
 
 		public ApartmentDetails GetApartmentDetails(int id)
 		{
@@ -94,6 +108,7 @@ namespace BL.Mangers
 
 		}
 	}
+
 
 
 }

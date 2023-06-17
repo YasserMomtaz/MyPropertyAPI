@@ -11,6 +11,7 @@ using System.Text;
 
 namespace MyPropertyAPI.Controllers
 {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class UsersController : ControllerBase

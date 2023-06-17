@@ -2,6 +2,14 @@
 using DAL.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Loader;
+using System.Text;
+using System.Threading.Tasks;
+
+
 namespace DAL.Repos.Apartment
 {
 	public class ApartmentRepo : IApartmentRepo
@@ -40,10 +48,61 @@ namespace DAL.Repos.Apartment
 			var fav = favapart.Select(a => a.Appartment);
 			return fav;
 		}
+    
+    
+        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
+        {
+
+            var result = await _Context.Appartments.ToListAsync();
+
+            if (City != null) { 
+            
+                result = await _Context.Appartments.Where(a => a.City.Contains(City)).ToListAsync();
+
+            }
+              
+            if (Address != null) {
+    
+              result = await _Context.Appartments.Where(a => a.Address.Contains(Address)).ToListAsync();
+            
+            }
+
+            if (minArea != null)
+            {
+                result = await _Context.Appartments.Where(a => a.Area > minArea).ToListAsync();
+
+               }
+
+
+            if (maxArea != null)
+            {
+                result = await _Context.Appartments.Where(a => a.Area < maxArea).ToListAsync();
+
+            }
+
+
+            if (maxPrice != null) {
+
+
+                result = await _Context.Appartments.Where(a => a.MaxPrice < maxPrice).ToListAsync();
+
+            }
+
+            if (minPrice != null)
+            { 
+
+                result = await _Context.Appartments.Where(a => a.MaxPrice > minPrice).ToListAsync();
+
+            }
+
+            return result;
+
+        }
 
 		public int SaveChanges()
 		{
 			return _Context.SaveChanges();
 		}
 	}
+
 }

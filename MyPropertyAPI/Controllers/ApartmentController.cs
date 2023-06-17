@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MyPropertyAPI.Controllers
 {
+
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ApartmentController : ControllerBase
@@ -56,5 +57,14 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
+    
+    [HttpGet]
+        [Route("/search")]
+        public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea , int minPrice, int maxPrice)
+        {
+            var list = await _buyApartment.Search( City, Address, minArea, maxArea,  minPrice, maxPrice);
+            return list.ToList();
+
+        }
 	}
 }
