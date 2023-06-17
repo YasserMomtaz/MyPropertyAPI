@@ -2,10 +2,6 @@
 using BL.Dtos.UserDtos;
 using BL.Mangers.Users;
 using DAL.Data.Models;
-using DAL.Repos.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +11,7 @@ using System.Text;
 
 namespace MyPropertyAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -127,4 +124,5 @@ namespace MyPropertyAPI.Controllers
             };
         }
     }
+
 }
