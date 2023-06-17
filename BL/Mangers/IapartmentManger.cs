@@ -1,15 +1,13 @@
 ﻿using BL.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Mangers
 {
-    public interface IapartmentManger
-    {
-        Task<IEnumerable<ApartmentList>> GetAll(string type);
-        ApartmentDetails GetApartmentDetails(int id);
-    }
+	public interface IapartmentManger
+	{
+		Task<IEnumerable<ApartmentList>> GetAll(string type);
+		ApartmentDetails GetApartmentDetails(int id);
+
+		IEnumerable<ApartmentList> GetAddedToFavorite(string id);
+		void AddToFavorite(string userId, int apart);
+	}
 }
