@@ -1,43 +1,58 @@
 ﻿using BL.Dtos;
 using BL.Mangers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyPropertyAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ApartmentController : ControllerBase
-    {
-     
-        
-        IapartmentManger _buyApartment;
-        public ApartmentController(IapartmentManger buyApartment)
-        { 
-            _buyApartment= buyApartment;
-        }
+	[Route("api/[controller]")]
+	[ApiController]
+	public class ApartmentController : ControllerBase
+	{
 
-        [HttpGet]
-        [Route("/buy")]
-        public async Task<ActionResult<List<ApartmentList>>> GetAllBuy()
-        {
-            var list = await _buyApartment.GetAll("Buy");
-            return list.ToList();
-        }
 
-        [HttpGet]
-        [Route("/rent")]
-        public async Task<ActionResult<List<ApartmentList>>> GetAllRent()
-        {
-            var list = await _buyApartment.GetAll("Rent");
-            return list.ToList();
-        }
+		IapartmentManger _buyApartment;
+		public ApartmentController(IapartmentManger buyApartment)
+		{
+			_buyApartment = buyApartment;
+		}
 
-        [HttpGet]
-        [Route("/{id}")]
-        public ActionResult<ApartmentDetails> Get(int id)
-        {
-            return _buyApartment.GetApartmentDetails(id);
-        }
-    }
+		[HttpGet]
+		[Route("/buy")]
+		public async Task<ActionResult<List<ApartmentList>>> GetAllBuy()
+		{
+			var list = await _buyApartment.GetAll("Buy");
+			return list.ToList();
+		}
+
+		[HttpGet]
+		[Route("/rent")]
+		public async Task<ActionResult<List<ApartmentList>>> GetAllRent()
+		{
+			var list = await _buyApartment.GetAll("Rent");
+			return list.ToList();
+		}
+
+		[HttpGet]
+		[Route("/{id}")]
+		public ActionResult<ApartmentDetails> Get(int id)
+		{
+			return _buyApartment.GetApartmentDetails(id);
+		}
+		[HttpGet]
+		[Route("/allfavorites/{id}")]
+		public ActionResult<List<ApartmentList>> GetAddedToFavorite(string id)
+		{
+			var FavApart = _buyApartment.GetAddedToFavorite(id);
+			return FavApart.ToList();
+
+
+		}
+		[HttpPost]
+		[Route("/addtofavorite")]
+		public ActionResult<ApartmentDetails> AddToFavorite(string userId, int apartId)
+		{
+			_buyApartment.AddToFavorite(userId, apartId);
+			return Ok();
+		}
+	}
 }
