@@ -9,7 +9,7 @@ namespace DAL.Repos.Users
 {
     public interface IUsersRepo
     {
-        void AddAppatrtement(Appartment NewAppartement);
+        void AddAppatrtement(Appartment NewAppartement, string[] photos);
         int SaveChanges();
 
     }

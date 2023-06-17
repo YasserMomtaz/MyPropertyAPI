@@ -35,12 +35,13 @@ namespace BL.Mangers.Users
                 Type= Appartementdto.Type,
                 AdDate= Appartementdto.AdDate,
                 Bedrooms= Appartementdto.Bedrooms,
-                Bathrooms=Appartementdto.Bedrooms
-                
+                Bathrooms=Appartementdto.Bedrooms,
             };
+            var photos = Appartementdto.PhotoUrl;
 
-            _UsersRepo.AddAppatrtement(NewAppartement);
-            _UsersRepo.SaveChanges();
+            _UsersRepo.AddAppatrtement(NewAppartement,photos);
+            
+            
 
         }
 

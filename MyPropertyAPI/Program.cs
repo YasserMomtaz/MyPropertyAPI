@@ -39,10 +39,15 @@ namespace MyPropertyAPI
                 options.UseSqlServer(connectionString));
             builder.Services.AddScoped<IUsersRepo,UsersRepo>();
             builder.Services.AddScoped<IUersManger,UsersManger >();
+            builder.Services.AddScoped<IPendingPropertyRepo, PendingPropertyRepo>();
+            builder.Services.AddScoped<IPendingPropertyManager, PendingPropertyManager>();
+
+            builder.Services.AddScoped<IApartmentRepo, ApartmentRepo>();
+            builder.Services.AddScoped<IapartmentManger, ApartmentManger>();
 
             //cors
-            builder.Services.AddCors(options => options.AddPolicy("all", p => p.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()));
-
+            /*            builder.Services.AddCors(options => options.AddPolicy("all", p => p.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()));
+            */
 
 
 
@@ -70,9 +75,6 @@ namespace MyPropertyAPI
             .AddEntityFrameworkStores<MyProperyContext>();
 
 
-            builder.Services.AddScoped<IPendingPropertyRepo,PendingPropertyRepo>();
-            builder.Services.AddScoped<IPendingPropertyManager, PendingPropertyManager>();
-
             //verify Token
             builder.Services.AddAuthentication(options =>
             {
@@ -96,14 +98,12 @@ namespace MyPropertyAPI
 
 
 
-            builder.Services.AddScoped<IApartmentRepo, ApartmentRepo>();
-            builder.Services.AddScoped<IapartmentManger, ApartmentManger>();
             
 
             var app = builder.Build();
 
-            app.UseCors("all");
-
+/*            app.UseCors("all");
+*/
             var staticFilesPath = Path.Combine(Environment.CurrentDirectory, "Photos");
             app.UseStaticFiles(new StaticFileOptions
             {

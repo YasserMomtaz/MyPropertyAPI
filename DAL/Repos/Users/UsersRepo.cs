@@ -17,10 +17,17 @@ namespace DAL.Repos.Users
             Context = context;
         }
 
-        public void AddAppatrtement(Appartment NewAppartement)
+        public void AddAppatrtement(Appartment NewAppartement, string[] photos)
         {
             
            Context.Appartments.Add(NewAppartement);
+            SaveChanges();
+            foreach (var item in photos)
+            {
+                var appartementPhoto = new Photo { ApartmentId = NewAppartement.Id, PhotoUrl = item };
+                Context.Photo.Add(appartementPhoto);
+            }
+            SaveChanges();
         }
         public int  SaveChanges()
         {
