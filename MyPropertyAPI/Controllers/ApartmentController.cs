@@ -39,9 +39,10 @@ namespace MyPropertyAPI.Controllers
 			return _buyApartment.GetApartmentDetails(id);
 		}
 		[HttpGet]
-		[Route("/allfavorites/{id}")]
-		public ActionResult<List<ApartmentList>> GetAddedToFavorite(string id)
+		[Route("/allfavorites")]
+		public ActionResult<List<ApartmentList>> GetAddedToFavorite()
 		{
+			string id = "1";
 			var FavApart = _buyApartment.GetAddedToFavorite(id);
 			return FavApart.ToList();
 
@@ -49,8 +50,9 @@ namespace MyPropertyAPI.Controllers
 		}
 		[HttpPost]
 		[Route("/addtofavorite")]
-		public ActionResult<ApartmentDetails> AddToFavorite(string userId, int apartId)
+		public ActionResult<ApartmentDetails> AddToFavorite(int apartId)
 		{
+			string userId = "1";
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
