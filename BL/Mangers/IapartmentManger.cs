@@ -11,5 +11,9 @@ namespace BL.Mangers
     {
         Task<IEnumerable<ApartmentList>> GetAll(string type);
         ApartmentDetails GetApartmentDetails(int id);
+
+        Task<IEnumerable<ApartmentList>> Search(string city, string address, int minarea, int maxarea, int minprice, int maxprice);
+      
     }
 }
+

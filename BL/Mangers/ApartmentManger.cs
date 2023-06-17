@@ -17,7 +17,24 @@ namespace BL.Mangers
             _apartmentRepo = apartmentRepo; 
         }
 
-        
+
+        public async Task<IEnumerable<ApartmentList>> Search(string city, string address, int minarea,int maxarea, int minprice, int maxprice)
+        {
+            IEnumerable<Appartment> result = await _apartmentRepo.Search(city, address, minarea, maxarea, minprice, maxprice);
+
+            return result.Select(a => new ApartmentList {
+            
+            City = a.City,
+            Address = a.Address,
+            Area = a.Area,
+            MaxPrice = a.MaxPrice, 
+            
+            }).ToList();
+
+
+
+           
+        }
         public async Task<IEnumerable<ApartmentList>> GetAll(string type)
         {
             IEnumerable<Appartment> ApartmentDB =await _apartmentRepo.GetAll(type);
@@ -62,5 +79,7 @@ namespace BL.Mangers
             };
             
         }
+
+     
     }
 }

@@ -9,12 +9,12 @@ namespace MyPropertyAPI.Controllers
     [ApiController]
     public class ApartmentController : ControllerBase
     {
-     
-        
+
+
         IapartmentManger _buyApartment;
         public ApartmentController(IapartmentManger buyApartment)
-        { 
-            _buyApartment= buyApartment;
+        {
+            _buyApartment = buyApartment;
         }
 
         [HttpGet]
@@ -39,5 +39,19 @@ namespace MyPropertyAPI.Controllers
         {
             return _buyApartment.GetApartmentDetails(id);
         }
+
+
+
+        [HttpGet]
+        [Route("/search")]
+        public async Task<ActionResult<List<ApartmentList>>> Search(string city, string address, int minarea, int maxarea , int minprice, int maxprice)
+        {
+            var list = await _buyApartment.Search( city, address, minarea, maxarea,  minprice, maxprice);
+            return list.ToList();
+
+
+        }
+
+
     }
 }

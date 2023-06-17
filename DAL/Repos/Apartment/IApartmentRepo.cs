@@ -11,5 +11,8 @@ namespace DAL.Repos.Apartment
     {
          Task<IEnumerable<Appartment>> GetAll(string type);
         Appartment GetApartmentDetails(int id);
+
+        Task<IEnumerable<Appartment>> Search(string city, string address, int minarea,int maxarea, int minprice, int maxprice);
+
     }
 }
