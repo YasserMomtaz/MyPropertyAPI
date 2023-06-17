@@ -50,7 +50,7 @@ namespace MyPropertyAPI.Controllers
 
 		}
 		[HttpPost]
-		[Route("/addtofavorite")]
+		[Route("/addtofavorite/{apartId}")]
 		public ActionResult<ApartmentDetails> AddToFavorite(int apartId)
 		{
 			string userId = "1";
