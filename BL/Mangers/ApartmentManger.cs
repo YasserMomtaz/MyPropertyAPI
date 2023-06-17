@@ -34,19 +34,28 @@ namespace BL.Mangers
 			}).ToList();
 
 		}
-    
-    public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
-        {
-            IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice);
 
-            return result.Select(a => new ApartmentList {
-            
-            City = a.City,
-            Address = a.Address,
-            Area = a.Area,
-            MaxPrice = a.MaxPrice, 
-            
+		public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice)
+		{
+			IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice);
+
+			return result.Select(a => new ApartmentList
+			{
+
+                Id = a.Id,
+                Title = a.Title,
+                Area = a.Area,
+                Bathrooms = a.Bathrooms,
+                Bedrooms = a.Bathrooms,
+                MiniDescription = a.MiniDescription,
+                Address = a.Address,
+                AdDate = a.AdDate,
+                City = a.City,
+                MaxPrice = a.MaxPrice,
+                BrokerPhone = a.Broker.PhoneNumber,
+                BrokerEmail = a.Broker.Email,
             }).ToList();
+		}
 
 		public ApartmentDetails GetApartmentDetails(int id)
 		{

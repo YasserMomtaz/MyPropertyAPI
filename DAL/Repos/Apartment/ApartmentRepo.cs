@@ -53,45 +53,45 @@ namespace DAL.Repos.Apartment
         async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
         {
 
-            var result = await _Context.Appartments.ToListAsync();
+            var result = await _Context.Appartments.Include(a=>a.Broker).ToListAsync();
 
-            if (City != null) { 
+            if (!string.IsNullOrEmpty(City)) { 
             
-                result = await _Context.Appartments.Where(a => a.City.Contains(City)).ToListAsync();
+                result =  result.Where(a => a.City.Contains(City)).ToList();
 
             }
               
-            if (Address != null) {
+            if (!string.IsNullOrEmpty(Address)) {
     
-              result = await _Context.Appartments.Where(a => a.Address.Contains(Address)).ToListAsync();
+              result = result.Where(a => a.Address.Contains(Address)).ToList();
             
             }
 
-            if (minArea != null)
+            if (minArea != 0)
             {
-                result = await _Context.Appartments.Where(a => a.Area > minArea).ToListAsync();
+                result = result.Where(a => a.Area > minArea).ToList();
 
                }
 
 
-            if (maxArea != null)
+            if (maxArea != 0)
             {
-                result = await _Context.Appartments.Where(a => a.Area < maxArea).ToListAsync();
+                result = result.Where(a => a.Area < maxArea).ToList();
 
             }
 
 
-            if (maxPrice != null) {
+            if (maxPrice != 0) {
 
 
-                result = await _Context.Appartments.Where(a => a.MaxPrice < maxPrice).ToListAsync();
+                result = result.Where(a => a.MaxPrice < maxPrice).ToList();
 
             }
 
-            if (minPrice != null)
+            if (minPrice != 0)
             { 
 
-                result = await _Context.Appartments.Where(a => a.MaxPrice > minPrice).ToListAsync();
+                result = result.Where(a => a.MaxPrice > minPrice).ToList();
 
             }
 
