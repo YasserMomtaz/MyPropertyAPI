@@ -18,9 +18,9 @@ namespace BL.Mangers
         }
 
 
-        public async Task<IEnumerable<ApartmentList>> Search(string city, string address, int minarea,int maxarea, int minprice, int maxprice)
+        public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
         {
-            IEnumerable<Appartment> result = await _apartmentRepo.Search(city, address, minarea, maxarea, minprice, maxprice);
+            IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice);
 
             return result.Select(a => new ApartmentList {
             

@@ -34,48 +34,48 @@ namespace DAL.Repos.Apartment
         }
 
 
-        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string city, string address, int minarea,int maxarea, int minprice, int maxprice)
+        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
         {
 
             var result = await _Context.Appartments.ToListAsync();
 
-            if (city != null) { 
+            if (City != null) { 
             
-                result = await _Context.Appartments.Where(a => a.City.Contains(city)).ToListAsync();
+                result = await _Context.Appartments.Where(a => a.City.Contains(City)).ToListAsync();
 
             }
               
-            if (address != null) {
+            if (Address != null) {
     
-              result = await _Context.Appartments.Where(a => a.Address.Contains(address)).ToListAsync();
+              result = await _Context.Appartments.Where(a => a.Address.Contains(Address)).ToListAsync();
             
             }
 
-            if (minarea != null)
+            if (minArea != null)
             {
-                result = await _Context.Appartments.Where(a => a.Area > minarea).ToListAsync();
+                result = await _Context.Appartments.Where(a => a.Area > minArea).ToListAsync();
 
                }
 
 
-            if (maxarea != null)
+            if (maxArea != null)
             {
-                result = await _Context.Appartments.Where(a => a.Area < maxarea).ToListAsync();
+                result = await _Context.Appartments.Where(a => a.Area < maxArea).ToListAsync();
 
             }
 
 
-            if (maxprice != null) {
+            if (maxPrice != null) {
 
 
-                result = await _Context.Appartments.Where(a => a.MaxPrice < maxprice).ToListAsync();
+                result = await _Context.Appartments.Where(a => a.MaxPrice < maxPrice).ToListAsync();
 
             }
 
-            if (minprice != null)
+            if (minPrice != null)
             { 
 
-                result = await _Context.Appartments.Where(a => a.MaxPrice > minprice).ToListAsync();
+                result = await _Context.Appartments.Where(a => a.MaxPrice > minPrice).ToListAsync();
 
             }
 
