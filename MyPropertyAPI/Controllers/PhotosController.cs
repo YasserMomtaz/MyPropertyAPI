@@ -10,16 +10,10 @@ namespace MyPropertyAPI.Controllers
     public class PhotosController : Controller
     {
 
-        private readonly MyProperyContext _dbContext;
-
-        public PhotosController(MyProperyContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
+     
        
         [HttpPost]
-        public ActionResult<PhotoDto> Upload(IFormFile file ,int apartmentId )
+        public ActionResult<PhotoDto> Upload(IFormFile file )
         {
 
             #region Checking Extension
@@ -38,7 +32,7 @@ namespace MyPropertyAPI.Controllers
                 StringComparer.InvariantCultureIgnoreCase);
             if (!isExtensionAllowed)
             {
-                return BadRequest("Extension is not valid");
+                return BadRequest(new PhotoDto(false, "Extension is not valid"));
             }
 
             #endregion
@@ -50,7 +44,7 @@ namespace MyPropertyAPI.Controllers
             //bool isSizeAllowed = file.Length > 0 && file.Length <= 4_000_000;
             if (!isSizeAllowed)
             {
-                return BadRequest("Size is not allowed");
+                return BadRequest((false, "Size is not allowed"));
             }
 
             #endregion
@@ -71,18 +65,10 @@ namespace MyPropertyAPI.Controllers
             var url = $"{Request.Scheme}://{Request.Host}/Photos/{newFileName}";
 
 
-            var photo = new Photo
-            {
-                ApartmentId = apartmentId,
-                PhotoUrl = url
-            };
+            return new  PhotoDto(true, "Success", url);
 
-            _dbContext.Photo.Add(photo);
-            _dbContext.SaveChanges();
 
-            var photoDto = new PhotoDto(apartmentId, photo.PhotoId, url);
 
-            return photoDto;
             #endregion
 
 

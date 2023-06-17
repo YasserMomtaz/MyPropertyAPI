@@ -11,18 +11,19 @@ namespace BL.Dtos
     public class PhotoDto
     {
 
-        public int PhotoId { get; set; }
-        public int ApartmentId { get; set; }
-        public string PhotoUrl { get; set; }
-        public bool IsSuccess { get; set; }
+
+    public bool IsSuccess { get; set; }
         public string Message { get; set; }
+        public string URL { get; set; }
 
 
-        public PhotoDto(int apartmentId, int photoId, string url = "")
+        public PhotoDto(bool isSuccess, string message, string url = "")
         {
-            ApartmentId = apartmentId;
-            PhotoId= photoId;
-            PhotoUrl = url;
+        
+       
+        IsSuccess = isSuccess;
+        Message = message;
+        URL = url;
         }
 
    
