@@ -17,10 +17,10 @@ namespace MyPropertyAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUersManger _UsersManger;
-        private readonly UserManager<User> UserManagerFromPackage;
+        private readonly UserManager<IdentityUser> UserManagerFromPackage;
         private readonly IConfiguration _configuration;
 
-        public UsersController(IUersManger UsersManger, UserManager<User> usermanger, IConfiguration configuration)
+        public UsersController(IUersManger UsersManger, UserManager<IdentityUser> usermanger, IConfiguration configuration)
         {
             _UsersManger = UsersManger;
             UserManagerFromPackage = usermanger;
@@ -76,7 +76,7 @@ namespace MyPropertyAPI.Controllers
         [Route("Login")]
         public async Task<ActionResult<TokenDto>> Register(UserLoginDto userLoginDto)
         {
-            User? user = await UserManagerFromPackage.FindByNameAsync(userLoginDto.UserName);
+            var user = await UserManagerFromPackage.FindByNameAsync(userLoginDto.UserName);
 
             if (user == null)
             {
