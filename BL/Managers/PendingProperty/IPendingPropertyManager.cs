@@ -11,7 +11,8 @@ public interface IPendingPropertyManager
     List<PendingReadDto> GetAll();
     PendingReadDetailsDto? GetById(int id);
     void Delete(int id);
-    void Accept(int id);
+   Appartment? Accept(int id,string brokerId, string managerId);
+    List<BrokerDataDto> GetAllBroker();
 
 }
 

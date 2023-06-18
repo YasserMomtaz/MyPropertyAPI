@@ -19,13 +19,17 @@ namespace DAL.Repos.PendingProperty
         {
             _context=context;
         }
-        public void Accept(int id )
+        public Appartment? Accept(int id , string brokerId, string managerId)
         {
+            
          var appartment=  _context.Appartments.FirstOrDefault(x => x.Id == id);
             if(appartment != null)
             {
                 appartment.Pending = false;
+                appartment.BrokerId = brokerId.ToString();
+                appartment.AdminId= managerId.ToString();
             }
+            return appartment;
 
         }
 
@@ -51,6 +55,13 @@ namespace DAL.Repos.PendingProperty
         public int SaveChanges()
         {
             return _context.SaveChanges();
+        }
+        
+
+        public IEnumerable<Broker> GetAllBroker()
+        {
+            var brokers = _context.Broker.ToList();
+            return brokers;
         }
     }
 }
