@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BL.Dtos.PendingProperty;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyPropertyAPI.Controllers
@@ -40,11 +41,20 @@ namespace MyPropertyAPI.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public ActionResult Accept(int id)
+        public ActionResult Accept(int id, string brokerId)
         {
-            _pendingPropertyManager.Accept(id);
+            string managerId = "3";
+          var apartment= _pendingPropertyManager.Accept(id, brokerId, managerId);
+            if (apartment == null) { return BadRequest(); }
+
             return NoContent();
         }
+        [HttpGet]
+        [Route("/brokerId")]
+        public ActionResult<List<BrokerDataDto>> GetAllBroker()
+        {
+            return _pendingPropertyManager.GetAllBroker();
 
+        }
     }
 }

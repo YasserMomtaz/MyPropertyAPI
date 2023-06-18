@@ -8,7 +8,7 @@ using DAL.Repos.PendingProperty;
 using DAL.Data.Models;
 
 namespace BL.Managers.PendingProperty
-{
+{ 
     public class PendingPropertyManager : IPendingPropertyManager
     {
         private readonly IPendingPropertyRepo _property;
@@ -17,13 +17,13 @@ namespace BL.Managers.PendingProperty
         {
             _property = pendingProperty;
         }
-        public void Accept(int id)
+        public Appartment? Accept(int id, string brokerId, string managerId)
         {
             /*var propertyFromDB= _property.GetById(id);
             if (propertyFromDB == null) { return; }*/
-            _property.Accept(id);
+          var apartment=  _property.Accept(id,brokerId,managerId);
             _property.SaveChanges();
-
+            return apartment;
         }
 
         public void Delete(int id)
@@ -46,6 +46,18 @@ namespace BL.Managers.PendingProperty
            
         }
 
+        public List<BrokerDataDto> GetAllBroker()
+        {
+
+            IEnumerable<Broker> brokersFromDb = _property.GetAllBroker();
+            return brokersFromDb.Select(a => new BrokerDataDto
+            {
+                BrokerId = int.Parse(a.Id),
+                BrokerName = a.UserName,
+
+            }).ToList();
+        }
+
         public PendingReadDetailsDto? GetById(int id)
         {
            var appartment=_property.GetById(id);
@@ -59,6 +71,8 @@ namespace BL.Managers.PendingProperty
                 Title = appartment.Title,
                 Username = appartment.User.UserName
             };
+
+            
         }
     }
 }

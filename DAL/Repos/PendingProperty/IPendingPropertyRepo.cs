@@ -11,9 +11,11 @@ namespace DAL.Repos.PendingProperty
     public interface IPendingPropertyRepo
     {
         IEnumerable<Appartment> GetAll();
+        IEnumerable<Broker> GetAllBroker();
         Appartment? GetById(int id);
+        
         void Delete(int id);
-        void Accept (int id);
+        Appartment? Accept (int id , string brokerId,string managerId);
         int SaveChanges();
     }
 }
