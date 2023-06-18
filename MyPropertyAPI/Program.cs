@@ -62,8 +62,8 @@ namespace MyPropertyAPI
             });
 
 
-            //Registration  (msht8ltsh 8er lma 5letha user)
-            builder.Services.AddIdentity<User,IdentityRole>(options =>
+            //Registration  
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
@@ -73,6 +73,7 @@ namespace MyPropertyAPI
                 
             })
             .AddEntityFrameworkStores<MyProperyContext>();
+
 
 
             //verify Token
