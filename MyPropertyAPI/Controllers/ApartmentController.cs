@@ -60,9 +60,9 @@ namespace MyPropertyAPI.Controllers
     
     [HttpGet]
         [Route("/search")]
-        public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea , int minPrice, int maxPrice)
+        public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea , int minPrice, int maxPrice, string type)
         {
-            var list = await _buyApartment.Search( City, Address, minArea, maxArea,  minPrice, maxPrice);
+            var list = await _buyApartment.Search( City, Address, minArea, maxArea,  minPrice, maxPrice, type);
             return list.ToList();
 
         }

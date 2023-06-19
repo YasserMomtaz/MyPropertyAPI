@@ -21,7 +21,8 @@ namespace BL.Dtos
 		public string? City { get; set; }
 		public int? Area { get; set; }
 		public string? MiniDescription { get; set; }
-		public DateTime? AdDate { get; set; }
+        public string? Type { get; set; }
+        public DateTime? AdDate { get; set; }
 		public int? Bedrooms { get; set; }
 		public int? Bathrooms { get; set; }
 
