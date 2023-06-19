@@ -53,7 +53,7 @@ namespace DAL.Repos.Apartment
         async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice, string type)
         {
 
-            var result = await _Context.Appartments.Include(a=>a.Broker).Where(a=>a.Pending==false).ToListAsync();
+            var result = await _Context.Appartments.Include(a=>a.Broker).Where(a=>a.Pending==false).Include(a=>a.Photos).ToListAsync();
             var newSearched = new Searched();
            
             if (!string.IsNullOrEmpty(City)) { 

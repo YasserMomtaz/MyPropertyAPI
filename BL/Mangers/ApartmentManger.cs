@@ -31,6 +31,7 @@ namespace BL.Mangers
 				MaxPrice = A.MaxPrice,
 				BrokerPhone = A.Broker.PhoneNumber,
 				BrokerEmail = A.Broker.Email,
+				Type=A.Type,
 				photos = A.Photos.Select(a=>a.PhotoUrl).ToArray(),
 			}).ToList();
 
@@ -55,7 +56,9 @@ namespace BL.Mangers
                 MaxPrice = a.MaxPrice,
                 BrokerPhone = a.Broker.PhoneNumber,
                 BrokerEmail = a.Broker.Email,
-			    Type=a.Type
+			    Type=a.Type,
+				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray()
+
             }).ToList();
 		}
 
