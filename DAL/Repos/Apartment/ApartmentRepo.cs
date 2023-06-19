@@ -22,7 +22,7 @@ namespace DAL.Repos.Apartment
 		async Task<IEnumerable<Appartment>> IApartmentRepo.GetAll(string type)
 		{
 
-			var AllApartments = await _Context.Appartments.Include(a => a.Broker).Where(a => a.Type == type && a.Pending == false).ToListAsync();
+			var AllApartments = await _Context.Appartments.Include(a => a.Broker).Where(a => a.Type == type && a.Pending == false).Include(a=>a.Photos).ToListAsync();
 			return AllApartments;
 
 		}

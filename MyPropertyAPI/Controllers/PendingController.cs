@@ -15,7 +15,9 @@ namespace MyPropertyAPI.Controllers
         }
         [HttpGet]
         public ActionResult<List<PendingReadDto>> GetAll() { 
-          return _pendingPropertyManager.GetAll();
+            var pendingReq = _pendingPropertyManager.GetAll();
+            if ( pendingReq == null ) { return BadRequest(); }
+            return pendingReq.ToList();
           
         }
         [HttpGet]

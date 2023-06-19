@@ -31,6 +31,7 @@ namespace BL.Mangers
 				MaxPrice = A.MaxPrice,
 				BrokerPhone = A.Broker.PhoneNumber,
 				BrokerEmail = A.Broker.Email,
+				photos = A.Photos.Select(a=>a.PhotoUrl).ToArray(),
 			}).ToList();
 
 		}

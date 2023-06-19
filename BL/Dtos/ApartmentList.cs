@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DAL.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BL.Dtos
 {
@@ -24,6 +25,8 @@ namespace BL.Dtos
 		public DateTime? AdDate { get; set; }
 		public int? Bedrooms { get; set; }
 		public int? Bathrooms { get; set; }
+		
+		public string[] photos { get; set; }
 
 
     }
