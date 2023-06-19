@@ -41,7 +41,7 @@ namespace MyPropertyAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet]
+        [HttpPatch]
         [Route("{id}")]
         public ActionResult Accept(int id, string brokerId)
         {

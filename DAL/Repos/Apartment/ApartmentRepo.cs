@@ -50,27 +50,34 @@ namespace DAL.Repos.Apartment
 		}
     
     
-        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice)
+        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice, string type)
         {
 
-            var result = await _Context.Appartments.Include(a=>a.Broker).ToListAsync();
-
+            var result = await _Context.Appartments.Include(a=>a.Broker).Where(a=>a.Pending==false).ToListAsync();
+            var newSearched = new Searched();
+           
             if (!string.IsNullOrEmpty(City)) { 
             
                 result =  result.Where(a => a.City.Contains(City)).ToList();
-
+                newSearched.City = City;   
             }
               
             if (!string.IsNullOrEmpty(Address)) {
     
               result = result.Where(a => a.Address.Contains(Address)).ToList();
-            
+              newSearched.Address = Address;
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+
+                result = result.Where(a => a.Type.Contains(type)).ToList();
+
             }
 
             if (minArea != 0)
             {
                 result = result.Where(a => a.Area > minArea).ToList();
-
+                newSearched.MinPrice = minPrice;
                }
 
 
@@ -85,6 +92,7 @@ namespace DAL.Repos.Apartment
 
 
                 result = result.Where(a => a.MaxPrice < maxPrice).ToList();
+                newSearched.MaxPrice = maxPrice;
 
             }
 
@@ -92,10 +100,17 @@ namespace DAL.Repos.Apartment
             { 
 
                 result = result.Where(a => a.MaxPrice > minPrice).ToList();
-
+                newSearched.MinPrice= minPrice;
             }
 
-            return result;
+            _Context.Searched.Add(newSearched);
+            _Context.SaveChanges();
+
+            List<Appartment> reversed = result.ToList();
+            reversed.Reverse();
+
+
+            return reversed;
 
         }
 
