@@ -80,9 +80,10 @@ namespace BL.Mangers
 				MaxPrice = ApartmentDB.MaxPrice,
 				BrokerPhone = ApartmentDB.Broker.PhoneNumber,
 				BrokerEmail = ApartmentDB.Broker.Email,
-				Type = ApartmentDB.Type
-
-			};
+				Type = ApartmentDB.Type,
+				ViewsCount = ApartmentDB.ViewsCounter.Value,
+				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
+            };
 
 		}
 
