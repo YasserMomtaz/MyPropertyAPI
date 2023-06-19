@@ -29,7 +29,18 @@ namespace DAL.Repos.Apartment
 
 		Appartment IApartmentRepo.GetApartmentDetails(int id)
 		{
-			return _Context.Appartments.Include(a => a.Broker).FirstOrDefault(a => a.Id == id && a.Pending == false);
+            var Appartement= _Context.Appartments.Include(a => a.Broker).Include(a => a.Photos).FirstOrDefault(a => a.Id == id && a.Pending == false);
+            if (Appartement.ViewsCounter == null)
+            {
+                Appartement.ViewsCounter = 1;
+            }
+            else
+            {
+                Appartement.ViewsCounter += 1;
+            }
+
+            SaveChanges();
+            return Appartement;
 		}
 		public void AddToFavorite(string userId, int apartId)
 		{

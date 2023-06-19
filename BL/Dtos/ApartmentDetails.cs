@@ -23,10 +23,11 @@ namespace BL.Dtos
         public int? Area { get; set; }
         public string? Description { get; set; }
         public string? Type { get; set; }
-
-
         public DateTime? AdDate { get; set; }
         public int? Bedrooms { get; set; }
         public int? Bathrooms { get; set; }
+        public int ViewsCount { get; set; }
+
+        public string[] Photos { get; set; }
     }
 }
