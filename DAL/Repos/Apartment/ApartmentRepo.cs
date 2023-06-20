@@ -44,13 +44,19 @@ namespace DAL.Repos.Apartment
 		}
 		public void AddToFavorite(string userId, int apartId)
 		{
-			var FavApartment = new UserApartement
-			{
-				UserId = userId,
-				ApartementId = apartId,
+            var userapartement=_Context.UserAppartement.FirstOrDefault(a=>a.UserId == userId && a.ApartementId==apartId);
+            if(userapartement == null)
+            {
+                var FavApartment = new UserApartement
+                {
+                    UserId = userId,
+                    ApartementId = apartId,
 
-			};
-			_Context.UserAppartement.Add(FavApartment);
+                };
+                _Context.UserAppartement.Add(FavApartment);
+
+            }
+
 		}
 
 		public IEnumerable<DAL.Data.Models.Appartment>? GetAddedToFavorite(string id)
