@@ -1,4 +1,6 @@
 ﻿using BL.Dtos;
+using DAL.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Mangers
 {
@@ -10,7 +12,11 @@ namespace BL.Mangers
   Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice,string type);
 		IEnumerable<ApartmentList> GetAddedToFavorite(string id);
 		void AddToFavorite(string userId, int apart);
-	}
+
+        Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker();
+
+
+    }
 
 }
 

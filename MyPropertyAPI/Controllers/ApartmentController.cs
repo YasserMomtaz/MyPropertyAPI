@@ -66,5 +66,20 @@ namespace MyPropertyAPI.Controllers
             return list.ToList();
 
         }
-	}
+
+
+
+        [HttpGet]
+        [Route("/getBrokerApartment")]
+        public async Task<ActionResult<List<ApartmentList>>> GetBrokerApartment()
+        {
+			var list = await _buyApartment.GetAppartmentsOfBroker();
+
+            return list.ToList();
+
+        }
+
+
+
+    }
 }
