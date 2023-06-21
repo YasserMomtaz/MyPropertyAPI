@@ -53,7 +53,7 @@ namespace BL.Managers.PendingProperty
             IEnumerable<Broker> brokersFromDb = _property.GetAllBroker();
             return brokersFromDb.Select(a => new BrokerDataDto
             {
-                BrokerId = int.Parse(a.Id),
+                BrokerId = a.Id,
                 BrokerName = a.UserName,
 
             }).ToList();

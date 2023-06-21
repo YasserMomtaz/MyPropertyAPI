@@ -82,6 +82,19 @@ namespace MyPropertyAPI.Controllers
 			}
 
 		}
-
+		[HttpDelete]
+        [Route("/DeleteAppartement/{Id}")]
+        public ActionResult DeleteAppartement(int Id)
+		{
+			var State = _buyApartment.DeleteAppartement(Id);
+			if (State == 1)
+			{
+				return NoContent();
+			}
+			else
+			{
+				return BadRequest("Appartement Not Exist");
+			}
+        }
     }
 }

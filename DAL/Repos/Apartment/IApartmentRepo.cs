@@ -13,6 +13,7 @@ namespace DAL.Repos.Apartment
 		int SaveChanges();
       Task<IEnumerable<Appartment>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice,string type);
 		int sellAppartement(int Id, int soldPrice);
+		int DeleteAppartement(int Id);
 
 
     }

@@ -179,6 +179,33 @@ namespace DAL.Repos.Apartment
                 return -1;
             }
         }
+        public int DeleteAppartement(int Id)
+        {
+            var appartement = _Context.Appartments.FirstOrDefault(a => a.Id == Id);
+            if (appartement != null)
+            {
+                //deleting photos and favourites
+                var photos = appartement.Photos;
+                var Favourite = appartement.UserApartement;
+                if (photos.Count != 0)
+                {
+                    _Context.Remove(photos);
+                }
+
+                if (Favourite.Count != 0)
+                {
+                    _Context.Remove(Favourite);
+                }
+
+                _Context.Remove(appartement);
+                _Context.SaveChanges();
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
 
 		public int SaveChanges()
 		{
