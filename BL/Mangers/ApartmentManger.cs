@@ -122,6 +122,10 @@ namespace BL.Mangers
 
 
 		}
+		public int SellAppartement (SoldAppartementDto sellDto)
+		{
+			return _apartmentRepo.sellAppartement(sellDto.AppartementId,sellDto.Price); ;
+		}
 	}
 
 

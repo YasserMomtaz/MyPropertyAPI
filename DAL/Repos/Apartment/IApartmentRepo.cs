@@ -12,7 +12,9 @@ namespace DAL.Repos.Apartment
 		void AddToFavorite(string userId, int apartId);
 		int SaveChanges();
       Task<IEnumerable<Appartment>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice,string type);
+		int sellAppartement(int Id, int soldPrice);
 
-	}
+
+    }
 
 }

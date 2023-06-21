@@ -1,4 +1,5 @@
 ﻿using BL.Dtos;
+using BL.Dtos.UserDtos;
 using BL.Mangers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,5 +67,21 @@ namespace MyPropertyAPI.Controllers
             return list.ToList();
 
         }
-	}
+        [HttpPost]
+        [Route("/sellAppartement")]
+        public  ActionResult SoldAppartement(SoldAppartementDto soldAppartement)
+		{
+			var state= _buyApartment.SellAppartement(soldAppartement);
+			if (state == 1)
+			{
+				return NoContent();
+			}
+			else
+			{
+				return BadRequest("Appartement Not Exist");
+			}
+
+		}
+
+    }
 }

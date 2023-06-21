@@ -1,5 +1,6 @@
 ﻿using DAL.Data.Context;
 using DAL.Data.Models;
+using DAL.Migrations;
 using Microsoft.EntityFrameworkCore;
 
 using System;
@@ -129,6 +130,54 @@ namespace DAL.Repos.Apartment
 
             return reversed;
 
+        }
+        public int sellAppartement(int Id,int soldPrice)
+        {
+            var appartement=_Context.Appartments.FirstOrDefault(a => a.Id == Id);
+            if (appartement != null)
+            {
+                SoldAppartement SoldAppartement = new SoldAppartement
+                {
+                    Title = appartement.Title,
+                    UserId = appartement.UserId,
+                    BrokerId = appartement.BrokerId,
+                    AdminId = appartement.AdminId,
+                    Price = soldPrice,
+                    Address = appartement.Address,
+                    City = appartement.City,
+                    Area = appartement.Area,
+                    Notes = appartement.Notes,
+                    Description = appartement.Description,
+                    MiniDescription = appartement.MiniDescription,
+                    Type = appartement.Type,
+                    AdDate = appartement.AdDate,
+                    SellingDate = DateTime.Now,
+                    Bedrooms= appartement.Bedrooms,
+                    Bathrooms=appartement.Bathrooms,
+                    ViewsCounter = appartement.ViewsCounter,
+                };
+                _Context.Add(SoldAppartement);
+
+                //deleting photos and favourites
+                var photos=appartement.Photos;
+                var Favourite = appartement.UserApartement;
+                if(photos.Count!=0 )
+                {
+                    _Context.Remove(photos);
+                }
+                
+                if(Favourite.Count!=0)
+                {
+                    _Context.Remove(Favourite);
+                }
+                
+                _Context.Remove(appartement);
+                _Context.SaveChanges();
+                return 1;
+            }else
+            {
+                return -1;
+            }
         }
 
 		public int SaveChanges()
