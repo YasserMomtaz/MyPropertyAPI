@@ -77,12 +77,13 @@ namespace MyPropertyAPI.Controllers
         public async Task<ActionResult<TokenDto>> Register(UserLoginDto userLoginDto)
         {
             var user = await UserManagerFromPackage.FindByNameAsync(userLoginDto.UserName);
-
+            
+           
             if (user == null)
             {
                 return BadRequest("User Name or Password isn't Correct");
             }
-
+            
             bool isPasswordCorrect = await UserManagerFromPackage.CheckPasswordAsync(user, userLoginDto.Password);
             if (!isPasswordCorrect)
             {
@@ -100,7 +101,7 @@ namespace MyPropertyAPI.Controllers
             string keyString = _configuration.GetValue<string>("SecretKey") ?? string.Empty;
             var keyInBytes = Encoding.ASCII.GetBytes(keyString);
             var key = new SymmetricSecurityKey(keyInBytes);
-
+            
             //Combination of secret Key and HashingAlgorithm
             var signingCredentials = new SigningCredentials(key,
                 SecurityAlgorithms.HmacSha256Signature);
@@ -113,14 +114,17 @@ namespace MyPropertyAPI.Controllers
                     claims: claimsList,
                     signingCredentials: signingCredentials);
 
+            // Find the role claim in the claims list
+            var roleClaim = claimsList.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+
             //Getting Token String
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenString = tokenHandler.WriteToken(jwt);
-
+            
             return new TokenDto
             {
                 Token = tokenString,
-
+                Role=roleClaim.Value,
             };
         }
     }
