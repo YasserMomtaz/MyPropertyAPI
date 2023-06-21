@@ -125,6 +125,7 @@ namespace MyPropertyAPI.Controllers
             {
                 Token = tokenString,
                 Role=roleClaim.Value,
+
             };
         }
     }
