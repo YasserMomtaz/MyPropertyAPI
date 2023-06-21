@@ -62,6 +62,14 @@ namespace DAL.Data.Context
             builder.Entity<User>().HasMany(o => o.SoldAppartment)
                 .WithOne(o => o.User).HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.NoAction);
 
+           builder.Entity<Appartment>()
+                        .Property(e => e.BrokerId)
+                        .IsRequired(false);       
+            builder.Entity<Appartment>()
+                        .Property(e => e.AdminId)
+                        .IsRequired(false);
+
+
         }
   
 
