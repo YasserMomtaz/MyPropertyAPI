@@ -36,7 +36,7 @@ namespace BL.Managers.PendingProperty
 
         public List<PendingReadDto> GetAll()
         {
-           IEnumerable<Appartment> appartmentFromDb= _property.GetAll();
+           var appartmentFromDb= _property.GetAll();
             if(appartmentFromDb == null) { return null; }
             return appartmentFromDb.Select(a=> new PendingReadDto
             {
