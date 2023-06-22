@@ -129,6 +129,16 @@ namespace DAL.Repos.Apartment
 		{
 			return _Context.SaveChanges();
 		}
-	}
+
+      async  public Task<IEnumerable<Appartment>> GetAppartmentsOfBroker()
+        {
+
+           var result = await _Context.Appartments.Include(a=>a.Photos).Where(a => Convert.ToInt32(a.BrokerId) == 1).ToListAsync();
+
+
+            return result;
+
+        }
+    }
 
 }
