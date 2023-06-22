@@ -12,6 +12,10 @@ namespace DAL.Repos.Apartment
 		void AddToFavorite(string userId, int apartId);
 		int SaveChanges();
 
+		int sellAppartement(int Id, int soldPrice);
+		int DeleteAppartement(int Id);
+
+
 		IEnumerable<Appartment> GetAllUserApartments(string id);
 		int GetCount(string type);
         int GetCountSearch(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type);
@@ -22,6 +26,8 @@ namespace DAL.Repos.Apartment
 
 
 
-	}
+
+
+    }
 
 }

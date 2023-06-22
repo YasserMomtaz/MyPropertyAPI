@@ -14,8 +14,14 @@ namespace BL.Mangers
         Task<ApartmentListPaginationDto> GetAll(string type,int page ,int CountPerPage);
 		ApartmentDetails GetApartmentDetails(int id);
 
+		int SellAppartement(SoldAppartementDto sellDto);
+		int DeleteAppartement(int Id);
+
+    
+
+
 		IEnumerable<ApartmentList> GetAllUserApartments(string id);
-	}
+	
 
 		Task<ApartmentListPaginationDto> Search(int page, int CountPerPage, string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice,string type);
 		IEnumerable<ApartmentList> GetAddedToFavorite(string id);
@@ -25,6 +31,7 @@ namespace BL.Mangers
 
 
     }
+
 
 
 }

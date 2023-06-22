@@ -24,6 +24,7 @@ namespace DAL.Data.Context
         public DbSet<Searched> Searched { get; set; }
 
         public DbSet<UserApartement> UserAppartement { get; set; }
+        public DbSet<SoldAppartement> SoldAppartement { get; set; }
 
         public MyProperyContext(DbContextOptions<MyProperyContext> options) : base(options)
         {
@@ -51,6 +52,23 @@ namespace DAL.Data.Context
 
             builder.Entity<User>().HasMany(o => o.Appartment)
                 .WithOne(o => o.User).HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Broker>().HasMany(o => o.SoldAppartment)
+            .WithOne(o => o.Broker).HasForeignKey(o => o.BrokerId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Admin>().HasMany(o => o.SoldAppartment)
+                .WithOne(o => o.Admin).HasForeignKey(o => o.AdminId).OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<User>().HasMany(o => o.SoldAppartment)
+                .WithOne(o => o.User).HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.NoAction);
+
+           builder.Entity<Appartment>()
+                        .Property(e => e.BrokerId)
+                        .IsRequired(false);       
+            builder.Entity<Appartment>()
+                        .Property(e => e.AdminId)
+                        .IsRequired(false);
+
 
         }
   

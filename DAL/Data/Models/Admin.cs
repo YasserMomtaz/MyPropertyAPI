@@ -10,6 +10,8 @@ namespace DAL.Data.Models
     public class Admin:IdentityUser
     {
         public ICollection<Appartment>? Appartment { get; set; }
+        public ICollection<SoldAppartement> SoldAppartment { get; set; }
+
 
     }
 }

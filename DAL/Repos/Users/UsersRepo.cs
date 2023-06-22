@@ -18,6 +18,7 @@ namespace DAL.Repos.Users
             
            Context.Appartments.Add(NewAppartement);
             SaveChanges();
+            NewAppartement.Code = $"##DF{NewAppartement.Id}##";
             foreach (var item in photos)
             {
                 var appartementPhoto = new Photo { ApartmentId = NewAppartement.Id, PhotoUrl = item };

@@ -98,6 +98,7 @@ namespace BL.Mangers
 				BrokerEmail = ApartmentDB.Broker.Email,
 				Type = ApartmentDB.Type,
 				ViewsCount = ApartmentDB.ViewsCounter.Value,
+				Code= ApartmentDB.Code,
 				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
 			};
 
@@ -138,6 +139,17 @@ namespace BL.Mangers
 
 
 		}
+
+		public int SellAppartement (SoldAppartementDto sellDto)
+		{
+			return _apartmentRepo.sellAppartement(sellDto.AppartementId,sellDto.Price); ;
+		}
+		public int DeleteAppartement(int Id)
+		{
+			return _apartmentRepo.DeleteAppartement(Id);
+		}
+	}
+
 
 
         public async Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker()

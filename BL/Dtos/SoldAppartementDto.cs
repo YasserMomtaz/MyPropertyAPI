@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL.Dtos
 {
-    public class TokenDto
+    public class SoldAppartementDto
     {
-        public string Token { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
+        public int AppartementId { get; set; }
+        public int Price { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace BL.Dtos.PendingProperty
 {
     public class BrokerDataDto
     {
-        public int BrokerId { get; set; }
+        public string BrokerId { get; set; }
         public string BrokerName { get; set;}
     }
 }

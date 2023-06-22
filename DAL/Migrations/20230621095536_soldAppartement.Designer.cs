@@ -4,6 +4,7 @@ using DAL.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(MyProperyContext))]
-    partial class MyProperyContextModelSnapshot : ModelSnapshot
+    [Migration("20230621095536_soldAppartement")]
+    partial class soldAppartement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +40,7 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AdminId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("Area")
@@ -49,12 +53,10 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BrokerId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -130,27 +132,31 @@ namespace DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Area")
+                    b.Property<int>("Area")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Bedrooms")
+                    b.Property<int>("Bedrooms")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KeyWord")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MaxPrice")
+                    b.Property<int>("MaxPrice")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MinPrice")
+                    b.Property<int>("MinPrice")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -480,12 +486,14 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Data.Models.Admin", "Admin")
                         .WithMany("Appartment")
                         .HasForeignKey("AdminId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("DAL.Data.Models.Broker", "Broker")
                         .WithMany("Appartment")
                         .HasForeignKey("BrokerId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("DAL.Data.Models.User", "User")
                         .WithMany("Appartment")
@@ -515,7 +523,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

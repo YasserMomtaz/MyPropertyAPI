@@ -10,5 +10,6 @@ namespace DAL.Data.Models
     public class Broker:IdentityUser
     {
         public ICollection<Appartment> Appartment { get; set; }
+        public ICollection<SoldAppartement> SoldAppartment { get; set; }
     }
 }

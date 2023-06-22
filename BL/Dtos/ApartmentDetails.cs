@@ -27,6 +27,7 @@ namespace BL.Dtos
         public int? Bedrooms { get; set; }
         public int? Bathrooms { get; set; }
         public int ViewsCount { get; set; }
+        public string? Code { get; set; } = "";
 
         public string[] Photos { get; set; }
     }
