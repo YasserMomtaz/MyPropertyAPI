@@ -57,14 +57,28 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
-    
-    [HttpGet]
-        [Route("/search")]
-        public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea , int minPrice, int maxPrice, string type)
-        {
-            var list = await _buyApartment.Search( City, Address, minArea, maxArea,  minPrice, maxPrice, type);
-            return list.ToList();
 
-        }
+		[HttpGet]
+		[Route("/search")]
+		public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
+		{
+			var list = await _buyApartment.Search(City, Address, minArea, maxArea, minPrice, maxPrice, type);
+			return list.ToList();
+
+		}
+		[HttpGet]
+		[Route("/getuserapartment/")]
+		public ActionResult<List<ApartmentList>> GetAllUserApartments()
+		{
+			string id = "2";
+			var UserApart = _buyApartment.GetAllUserApartments(id);
+			if (UserApart == null)
+			{
+				return BadRequest();
+			}
+			return UserApart.ToList();
+
+
+		}
 	}
 }

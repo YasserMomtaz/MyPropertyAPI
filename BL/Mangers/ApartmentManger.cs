@@ -31,35 +31,35 @@ namespace BL.Mangers
 				MaxPrice = A.MaxPrice,
 				BrokerPhone = A.Broker.PhoneNumber,
 				BrokerEmail = A.Broker.Email,
-				Type=A.Type,
-				photos = A.Photos.Select(a=>a.PhotoUrl).ToArray(),
+				Type = A.Type,
+				photos = A.Photos.Select(a => a.PhotoUrl).ToArray(),
 			}).ToList();
 
 		}
 
 		public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
 		{
-			IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice,type);
+			IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice, type);
 
 			return result.Select(a => new ApartmentList
 			{
 
-                Id = a.Id,
-                Title = a.Title,
-                Area = a.Area,
-                Bathrooms = a.Bathrooms,
-                Bedrooms = a.Bathrooms,
-                MiniDescription = a.MiniDescription,
-                Address = a.Address,
-                AdDate = a.AdDate,
-                City = a.City,
-                MaxPrice = a.MaxPrice,
-                BrokerPhone = a.Broker.PhoneNumber,
-                BrokerEmail = a.Broker.Email,
-			    Type=a.Type,
-				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray()
+				Id = a.Id,
+				Title = a.Title,
+				Area = a.Area,
+				Bathrooms = a.Bathrooms,
+				Bedrooms = a.Bathrooms,
+				MiniDescription = a.MiniDescription,
+				Address = a.Address,
+				AdDate = a.AdDate,
+				City = a.City,
+				MaxPrice = a.MaxPrice,
+				BrokerPhone = a.Broker.PhoneNumber,
+				BrokerEmail = a.Broker.Email,
+				Type = a.Type,
+				photos = a.Photos.Select(a => a.PhotoUrl).ToArray()
 
-            }).ToList();
+			}).ToList();
 		}
 
 		public ApartmentDetails GetApartmentDetails(int id)
@@ -83,7 +83,7 @@ namespace BL.Mangers
 				Type = ApartmentDB.Type,
 				ViewsCount = ApartmentDB.ViewsCounter.Value,
 				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
-            };
+			};
 
 		}
 
@@ -102,7 +102,7 @@ namespace BL.Mangers
 
 		IEnumerable<ApartmentList> IapartmentManger.GetAddedToFavorite(string id)
 		{
-			IEnumerable<Appartment> ApartmentDB = _apartmentRepo.GetAddedToFavorite(id);
+			IEnumerable<Appartment> ApartmentDB = _apartmentRepo.GetUserApartments(id);
 
 			return ApartmentDB.Select(a => new ApartmentList
 			{
@@ -121,6 +121,33 @@ namespace BL.Mangers
 			}).ToList();
 
 
+		}
+
+		public IEnumerable<ApartmentList> GetAllUserApartments(string id)
+		{
+			IEnumerable<Appartment> apartmentDB = _apartmentRepo.GetAllUserApartments(id);
+
+			if (apartmentDB == null)
+			{
+				return null;
+			}
+			else
+			{
+
+				return apartmentDB.Select(a => new ApartmentList
+				{
+					Id = a.Id,
+					Title = a.Title,
+					Area = a.Area,
+					Bathrooms = a.Bathrooms,
+					Bedrooms = a.Bathrooms,
+					MiniDescription = a.MiniDescription,
+					Address = a.Address,
+					AdDate = a.AdDate,
+					City = a.City,
+					MaxPrice = a.MaxPrice,
+				}).ToList();
+			}
 		}
 	}
 

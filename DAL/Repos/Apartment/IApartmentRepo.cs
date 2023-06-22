@@ -8,11 +8,11 @@ namespace DAL.Repos.Apartment
 		Task<IEnumerable<Appartment>> GetAll(string type);
 		Appartment GetApartmentDetails(int id);
 		/////////////////
-		IEnumerable<Appartment> GetAddedToFavorite(string id);
+		IEnumerable<Appartment> GetUserApartments(string id);
 		void AddToFavorite(string userId, int apartId);
 		int SaveChanges();
-      Task<IEnumerable<Appartment>> Search(string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice,string type);
-
+		Task<IEnumerable<Appartment>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type);
+		IEnumerable<Appartment> GetAllUserApartments(string id);
 	}
 
 }
