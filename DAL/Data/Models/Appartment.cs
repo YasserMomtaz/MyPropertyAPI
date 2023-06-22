@@ -46,6 +46,7 @@ namespace DAL.Data.Models
         public int? Bedrooms { get; set; }
         public int? Bathrooms { get; set; }
         public int? ViewsCounter { get; set; }
+        public string? Code { get; set; }
        
         public User User { get; set; }
         public Broker Broker { get; set; }

@@ -82,6 +82,7 @@ namespace BL.Mangers
 				BrokerEmail = ApartmentDB.Broker.Email,
 				Type = ApartmentDB.Type,
 				ViewsCount = ApartmentDB.ViewsCounter.Value,
+				Code= ApartmentDB.Code,
 				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
             };
 
