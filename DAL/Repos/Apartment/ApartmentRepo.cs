@@ -1,4 +1,5 @@
-﻿using DAL.Data.Context;
+﻿using Azure;
+using DAL.Data.Context;
 using DAL.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +13,20 @@ namespace DAL.Repos.Apartment
 		{
 			_Context = context;
 		}
-		async Task<IEnumerable<Appartment>> IApartmentRepo.GetAll(string type)
+		async Task<IEnumerable<Appartment>> IApartmentRepo.GetAll(string type,int page ,int CountPerPage)
 		{
 
-			var AllApartments = await _Context.Appartments.Include(a => a.Broker).Where(a => a.Type == type && a.Pending == false).Include(a => a.Photos).ToListAsync();
+
+			var AllApartments = await _Context.Appartments
+                                        .Include(a => a.Broker)
+                                        .Where(a => a.Type == type && a.Pending == false)
+                                        .Include(a=>a.Photos)
+                                        .Skip(CountPerPage*(page-1)).Take(CountPerPage).ToListAsync();
+
 			return AllApartments;
 
 		}
+        
 
 		Appartment IApartmentRepo.GetApartmentDetails(int id)
 		{
@@ -53,9 +61,14 @@ namespace DAL.Repos.Apartment
 			return fav;
 		}
 
+    
+    
+        async Task<IEnumerable<Appartment>> IApartmentRepo.Search(int page, int CountPerPage,string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice, string type)
+        {
 
-		async Task<IEnumerable<Appartment>> IApartmentRepo.Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
-		{
+
+
+		
 
 			var result = await _Context.Appartments.Include(a => a.Broker).Where(a => a.Pending == false).Include(a => a.Photos).ToListAsync();
 			var newSearched = new Searched();
@@ -110,10 +123,12 @@ namespace DAL.Repos.Apartment
 				newSearched.MinPrice = minPrice;
 			}
 
+
 			_Context.Searched.Add(newSearched);
 			_Context.SaveChanges();
 
-			List<Appartment> reversed = result.ToList();
+
+			List<Appartment> reversed = result.Skip(CountPerPage*(page-1)).Take(CountPerPage).ToList();
 			reversed.Reverse();
 
 
@@ -126,11 +141,87 @@ namespace DAL.Repos.Apartment
 			return _Context.SaveChanges();
 		}
 
+
 		public IEnumerable<Appartment> GetAllUserApartments(string userId)
 		{
 			var userApartments = _Context.Appartments.Include(a => a.Photos).Where(a => a.UserId == userId);
 			return userApartments;
 		}
 	}
+
+
+       
+
+        int IApartmentRepo.GetCount(string type)
+        {
+            var AllApartmentsCount =  _Context.Appartments.Where(a => a.Type == type && a.Pending == false).Count();
+                                        
+            return AllApartmentsCount;
+        }
+
+        int IApartmentRepo.GetCountSearch(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
+        {
+            var result =  _Context.Appartments.Include(a => a.Broker).Where(a => a.Pending == false).Include(a => a.Photos).ToList();
+
+            if (!string.IsNullOrEmpty(City))
+            {
+
+                result = result.Where(a => a.City.Contains(City)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Address))
+            {
+                result = result.Where(a => a.Address.Contains(Address)).ToList();
+            }
+            if (!string.IsNullOrEmpty(type))
+            {
+
+                result = result.Where(a => a.Type.Contains(type)).ToList();
+
+            }
+
+            if (minArea != 0)
+            {
+                result = result.Where(a => a.Area > minArea).ToList();
+            }
+
+
+            if (maxArea != 0)
+            {
+                result = result.Where(a => a.Area < maxArea).ToList();
+
+            }
+
+
+            if (maxPrice != 0)
+            {
+
+
+                result = result.Where(a => a.MaxPrice < maxPrice).ToList();
+
+            }
+
+            if (minPrice != 0)
+            {
+
+                result = result.Where(a => a.MaxPrice > minPrice).ToList();
+            }
+
+
+            int reversed = result.Count();
+            return reversed;
+
+      async  public Task<IEnumerable<Appartment>> GetAppartmentsOfBroker()
+        {
+
+           var result = await _Context.Appartments.Include(a=>a.Photos).Where(a => Convert.ToInt32(a.BrokerId) == 1).ToListAsync();
+
+
+            return result;
+
+
+        }
+    }
+
 
 }

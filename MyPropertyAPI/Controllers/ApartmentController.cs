@@ -1,4 +1,5 @@
 ﻿using BL.Dtos;
+using BL.Dtos.Apartment;
 using BL.Mangers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,19 +19,19 @@ namespace MyPropertyAPI.Controllers
 		}
 
 		[HttpGet]
-		[Route("/buy")]
-		public async Task<ActionResult<List<ApartmentList>>> GetAllBuy()
+		[Route("/buy/{page}/{pageCount}")]
+		public async Task<ActionResult<ApartmentListPaginationDto>> GetAllBuy(int page ,int pageCount)
 		{
-			var list = await _buyApartment.GetAll("Buy");
-			return list.ToList();
+			var list = await _buyApartment.GetAll("Buy",page,pageCount);
+			return list;
 		}
 
 		[HttpGet]
-		[Route("/rent")]
-		public async Task<ActionResult<List<ApartmentList>>> GetAllRent()
-		{
-			var list = await _buyApartment.GetAll("Rent");
-			return list.ToList();
+		[Route("/rent/{page}/{pageCount}")]
+        public async Task<ActionResult<ApartmentListPaginationDto>> GetAllrent(int page, int pageCount)
+        {
+			var list = await _buyApartment.GetAll("Rent", page, pageCount);
+			return list;
 		}
 
 		[HttpGet]
@@ -59,14 +60,6 @@ namespace MyPropertyAPI.Controllers
 		}
 
 		[HttpGet]
-		[Route("/search")]
-		public async Task<ActionResult<List<ApartmentList>>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
-		{
-			var list = await _buyApartment.Search(City, Address, minArea, maxArea, minPrice, maxPrice, type);
-			return list.ToList();
-
-		}
-		[HttpGet]
 		[Route("/getuserapartment/")]
 		public ActionResult<List<ApartmentList>> GetAllUserApartments()
 		{
@@ -80,5 +73,31 @@ namespace MyPropertyAPI.Controllers
 
 
 		}
-	}
+
+    
+    [HttpGet]
+        [Route("/search/{page}/{CountPerPage}")]
+        public async Task<ActionResult<ApartmentListPaginationDto>> Search(int page, int CountPerPage, string City, string Address, int minArea, int maxArea , int minPrice, int maxPrice, string type)
+        {
+            var list = await _buyApartment.Search(page,CountPerPage ,City, Address, minArea, maxArea,  minPrice, maxPrice, type);
+			return list;
+
+        }
+
+
+
+        [HttpGet]
+        [Route("/getBrokerApartment")]
+        public async Task<ActionResult<List<ApartmentList>>> GetBrokerApartment()
+        {
+			var list = await _buyApartment.GetAppartmentsOfBroker();
+
+            return list.ToList();
+
+        }
+
+
+
+    }
+
 }
