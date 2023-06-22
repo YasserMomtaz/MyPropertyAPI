@@ -1,5 +1,9 @@
 ﻿using BL.Dtos;
+
+using BL.Dtos.Apartment;
+
 using BL.Dtos.PendingProperty;
+
 using DAL.Data.Models;
 using DAL.Repos.Apartment;
 using System.Net;
@@ -16,10 +20,10 @@ namespace BL.Mangers
 		}
 
 
-		public async Task<IEnumerable<ApartmentList>> GetAll(string type)
+		public async Task<ApartmentListPaginationDto> GetAll(string type,int page,int CountPerPage)
 		{
-			IEnumerable<Appartment> ApartmentDB = await _apartmentRepo.GetAll(type);
-			return ApartmentDB.Select(A => new ApartmentList
+			IEnumerable<Appartment> ApartmentDB = await _apartmentRepo.GetAll(type,page,CountPerPage);
+			var apartmentList= ApartmentDB.Select(A => new ApartmentList
 			{
 				Id = A.Id,
 				Title = A.Title,
@@ -36,14 +40,16 @@ namespace BL.Mangers
 				Type=A.Type,
 				photos = A.Photos.Select(a=>a.PhotoUrl).ToArray(),
 			}).ToList();
+			var apartmentCount = _apartmentRepo.GetCount(type);
+			return new ApartmentListPaginationDto { ApartmentList= apartmentList ,ApartmentCount =apartmentCount};
 
 		}
 
-		public async Task<IEnumerable<ApartmentList>> Search(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
+		public async Task<ApartmentListPaginationDto> Search(int page, int CountPerPage,string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
 		{
-			IEnumerable<Appartment> result = await _apartmentRepo.Search(City, Address, minArea, maxArea, minPrice, maxPrice,type);
+			IEnumerable<Appartment> result = await _apartmentRepo.Search(page ,CountPerPage,City, Address, minArea, maxArea, minPrice, maxPrice,type);
 
-			return result.Select(a => new ApartmentList
+			var SearchedItems= result.Select(a => new ApartmentList
 			{
 
                 Id = a.Id,
@@ -62,9 +68,13 @@ namespace BL.Mangers
 				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray()
 
             }).ToList();
-		}
 
-		public ApartmentDetails GetApartmentDetails(int id)
+            var apartmentCount = _apartmentRepo.GetCountSearch(City, Address, minArea, maxArea, minPrice, maxPrice, type);
+            return new ApartmentListPaginationDto { ApartmentList = SearchedItems, ApartmentCount = apartmentCount };
+
+        }
+
+        public ApartmentDetails GetApartmentDetails(int id)
 		{
 			Appartment ApartmentDB = _apartmentRepo.GetApartmentDetails(id);
 
