@@ -128,7 +128,7 @@ namespace DAL.Repos.Apartment
 
 		public IEnumerable<Appartment> GetAllUserApartments(string userId)
 		{
-			var userApartments = _Context.Appartments.Where(a => a.UserId == userId);
+			var userApartments = _Context.Appartments.Include(a => a.Photos).Where(a => a.UserId == userId);
 			return userApartments;
 		}
 	}

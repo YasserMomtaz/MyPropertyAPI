@@ -133,8 +133,7 @@ namespace BL.Mangers
 			}
 			else
 			{
-
-				return apartmentDB.Select(a => new ApartmentList
+				var apartmentList = apartmentDB.Select(a => new ApartmentList
 				{
 					Id = a.Id,
 					Title = a.Title,
@@ -146,12 +145,13 @@ namespace BL.Mangers
 					AdDate = a.AdDate,
 					City = a.City,
 					MaxPrice = a.MaxPrice,
+					photos = a.Photos.Select(p => p.PhotoUrl).ToArray()
 				}).ToList();
+
+				return apartmentList;
 			}
+
 		}
 	}
-
-
-
 }
 
