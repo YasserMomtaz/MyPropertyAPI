@@ -15,6 +15,10 @@ namespace DAL.Repos.Apartment
         int GetCountSearch(string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type);
         Task<IEnumerable<Appartment>> Search(int page, int CountPerPage,string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice,string type);
 
+
+		Task<IEnumerable<Appartment>> GetAppartmentsOfBroker();
+
+
 	}
 
 }

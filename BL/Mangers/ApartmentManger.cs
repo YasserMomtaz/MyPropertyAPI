@@ -1,7 +1,12 @@
 ﻿using BL.Dtos;
+
 using BL.Dtos.Apartment;
+
+using BL.Dtos.PendingProperty;
+
 using DAL.Data.Models;
 using DAL.Repos.Apartment;
+using System.Net;
 
 namespace BL.Mangers
 {
@@ -129,7 +134,34 @@ namespace BL.Mangers
 
 
 		}
-	}
+
+        public async Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker()
+        {
+
+
+            IEnumerable<Appartment> result = await _apartmentRepo.GetAppartmentsOfBroker();
+
+			return result.Select(a => new ApartmentList
+			{
+
+				Id = a.Id,
+				Title = a.Title,
+				Area = a.Area,
+				Bathrooms = a.Bathrooms,
+				Bedrooms = a.Bathrooms,
+				MiniDescription = a.MiniDescription,
+				Address = a.Address,
+				AdDate = a.AdDate,
+				City = a.City,
+				MaxPrice = a.MaxPrice,
+
+                photos = a.Photos.Select(a => a.PhotoUrl).ToArray(),
+
+
+            }).ToList();
+
+        }
+    }
 
 
 

@@ -137,6 +137,7 @@ namespace DAL.Repos.Apartment
 			return _Context.SaveChanges();
 		}
 
+
        
 
         int IApartmentRepo.GetCount(string type)
@@ -197,6 +198,16 @@ namespace DAL.Repos.Apartment
 
             int reversed = result.Count();
             return reversed;
+
+      async  public Task<IEnumerable<Appartment>> GetAppartmentsOfBroker()
+        {
+
+           var result = await _Context.Appartments.Include(a=>a.Photos).Where(a => Convert.ToInt32(a.BrokerId) == 1).ToListAsync();
+
+
+            return result;
+
+
         }
     }
 
