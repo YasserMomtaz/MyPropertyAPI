@@ -3,13 +3,6 @@ using DAL.Data.Context;
 using DAL.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace DAL.Repos.Apartment
 {
@@ -23,11 +16,13 @@ namespace DAL.Repos.Apartment
 		async Task<IEnumerable<Appartment>> IApartmentRepo.GetAll(string type,int page ,int CountPerPage)
 		{
 
+
 			var AllApartments = await _Context.Appartments
                                         .Include(a => a.Broker)
                                         .Where(a => a.Type == type && a.Pending == false)
                                         .Include(a=>a.Photos)
                                         .Skip(CountPerPage*(page-1)).Take(CountPerPage).ToListAsync();
+
 			return AllApartments;
 
 		}
@@ -35,18 +30,18 @@ namespace DAL.Repos.Apartment
 
 		Appartment IApartmentRepo.GetApartmentDetails(int id)
 		{
-            var Appartement= _Context.Appartments.Include(a => a.Broker).Include(a => a.Photos).FirstOrDefault(a => a.Id == id && a.Pending == false);
-            if (Appartement.ViewsCounter == null)
-            {
-                Appartement.ViewsCounter = 1;
-            }
-            else
-            {
-                Appartement.ViewsCounter += 1;
-            }
+			var Appartement = _Context.Appartments.Include(a => a.Broker).Include(a => a.Photos).FirstOrDefault(a => a.Id == id && a.Pending == false);
+			if (Appartement.ViewsCounter == null)
+			{
+				Appartement.ViewsCounter = 1;
+			}
+			else
+			{
+				Appartement.ViewsCounter += 1;
+			}
 
-            SaveChanges();
-            return Appartement;
+			SaveChanges();
+			return Appartement;
 		}
 		public void AddToFavorite(string userId, int apartId)
 		{
@@ -59,83 +54,100 @@ namespace DAL.Repos.Apartment
 			_Context.UserAppartement.Add(FavApartment);
 		}
 
-		public IEnumerable<DAL.Data.Models.Appartment>? GetAddedToFavorite(string id)
+		public IEnumerable<DAL.Data.Models.Appartment>? GetUserApartments(string id)
 		{
 			var favapart = _Context.UserAppartement.Include(a => a.Appartment).ThenInclude(a => a.Broker).Where(a => a.UserId == id);
 			var fav = favapart.Select(a => a.Appartment);
 			return fav;
 		}
+
     
     
         async Task<IEnumerable<Appartment>> IApartmentRepo.Search(int page, int CountPerPage,string City, string Address, int minArea,int maxArea, int minPrice, int maxPrice, string type)
         {
 
-            var result = await _Context.Appartments.Include(a=>a.Broker).Where(a=>a.Pending==false).Include(a=>a.Photos).ToListAsync();
-            var newSearched = new Searched();
-           
-            if (!string.IsNullOrEmpty(City)) { 
-            
-                result =  result.Where(a => a.City.Contains(City)).ToList();
-                newSearched.City = City;   
-            }
-              
-            if (!string.IsNullOrEmpty(Address)) {
-    
-              result = result.Where(a => a.Address.Contains(Address)).ToList();
-              newSearched.Address = Address;
-            }
-            if (!string.IsNullOrEmpty(type))
-            {
-
-                result = result.Where(a => a.Type.Contains(type)).ToList();
-
-            }
-
-            if (minArea != 0)
-            {
-                result = result.Where(a => a.Area > minArea).ToList();
-                newSearched.MinPrice = minPrice;
-               }
 
 
-            if (maxArea != 0)
-            {
-                result = result.Where(a => a.Area < maxArea).ToList();
+		
 
-            }
+			var result = await _Context.Appartments.Include(a => a.Broker).Where(a => a.Pending == false).Include(a => a.Photos).ToListAsync();
+			var newSearched = new Searched();
+
+			if (!string.IsNullOrEmpty(City))
+			{
+
+				result = result.Where(a => a.City.Contains(City)).ToList();
+				newSearched.City = City;
+			}
+
+			if (!string.IsNullOrEmpty(Address))
+			{
+
+				result = result.Where(a => a.Address.Contains(Address)).ToList();
+				newSearched.Address = Address;
+			}
+			if (!string.IsNullOrEmpty(type))
+			{
+
+				result = result.Where(a => a.Type.Contains(type)).ToList();
+
+			}
+
+			if (minArea != 0)
+			{
+				result = result.Where(a => a.Area > minArea).ToList();
+				newSearched.MinPrice = minPrice;
+			}
 
 
-            if (maxPrice != 0) {
+			if (maxArea != 0)
+			{
+				result = result.Where(a => a.Area < maxArea).ToList();
+
+			}
 
 
-                result = result.Where(a => a.MaxPrice < maxPrice).ToList();
-                newSearched.MaxPrice = maxPrice;
-
-            }
-
-            if (minPrice != 0)
-            { 
-
-                result = result.Where(a => a.MaxPrice > minPrice).ToList();
-                newSearched.MinPrice= minPrice;
-            }
-
-            _Context.Searched.Add(newSearched);
-            _Context.SaveChanges();
-
-            List<Appartment> reversed = result.ToList();
-            reversed.Reverse();
-            
+			if (maxPrice != 0)
+			{
 
 
-            return reversed;
+				result = result.Where(a => a.MaxPrice < maxPrice).ToList();
+				newSearched.MaxPrice = maxPrice;
 
-        }
+			}
+
+			if (minPrice != 0)
+			{
+
+				result = result.Where(a => a.MaxPrice > minPrice).ToList();
+				newSearched.MinPrice = minPrice;
+			}
+
+
+			_Context.Searched.Add(newSearched);
+			_Context.SaveChanges();
+
+
+			List<Appartment> reversed = result.Skip(CountPerPage*(page-1)).Take(CountPerPage).ToList();
+			reversed.Reverse();
+
+
+			return reversed;
+
+		}
 
 		public int SaveChanges()
 		{
 			return _Context.SaveChanges();
 		}
+
+
+		public IEnumerable<Appartment> GetAllUserApartments(string userId)
+		{
+			var userApartments = _Context.Appartments.Include(a => a.Photos).Where(a => a.UserId == userId);
+			return userApartments;
+		}
+	}
 
 
        
@@ -210,5 +222,6 @@ namespace DAL.Repos.Apartment
 
         }
     }
+
 
 }

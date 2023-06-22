@@ -37,8 +37,8 @@ namespace BL.Mangers
 				MaxPrice = A.MaxPrice,
 				BrokerPhone = A.Broker.PhoneNumber,
 				BrokerEmail = A.Broker.Email,
-				Type=A.Type,
-				photos = A.Photos.Select(a=>a.PhotoUrl).ToArray(),
+				Type = A.Type,
+				photos = A.Photos.Select(a => a.PhotoUrl).ToArray(),
 			}).ToList();
 			var apartmentCount = _apartmentRepo.GetCount(type);
 			return new ApartmentListPaginationDto { ApartmentList= apartmentList ,ApartmentCount =apartmentCount};
@@ -47,10 +47,13 @@ namespace BL.Mangers
 
 		public async Task<ApartmentListPaginationDto> Search(int page, int CountPerPage,string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
 		{
+
 			IEnumerable<Appartment> result = await _apartmentRepo.Search(page ,CountPerPage,City, Address, minArea, maxArea, minPrice, maxPrice,type);
+
 
 			var SearchedItems= result.Select(a => new ApartmentList
 			{
+
 
                 Id = a.Id,
                 Title = a.Title,
@@ -68,6 +71,7 @@ namespace BL.Mangers
 				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray()
 
             }).ToList();
+
 
             var apartmentCount = _apartmentRepo.GetCountSearch(City, Address, minArea, maxArea, minPrice, maxPrice, type);
             return new ApartmentListPaginationDto { ApartmentList = SearchedItems, ApartmentCount = apartmentCount };
@@ -95,7 +99,7 @@ namespace BL.Mangers
 				Type = ApartmentDB.Type,
 				ViewsCount = ApartmentDB.ViewsCounter.Value,
 				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
-            };
+			};
 
 		}
 
@@ -114,7 +118,7 @@ namespace BL.Mangers
 
 		IEnumerable<ApartmentList> IapartmentManger.GetAddedToFavorite(string id)
 		{
-			IEnumerable<Appartment> ApartmentDB = _apartmentRepo.GetAddedToFavorite(id);
+			IEnumerable<Appartment> ApartmentDB = _apartmentRepo.GetUserApartments(id);
 
 			return ApartmentDB.Select(a => new ApartmentList
 			{
@@ -134,6 +138,7 @@ namespace BL.Mangers
 
 
 		}
+
 
         public async Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker()
         {
@@ -163,7 +168,35 @@ namespace BL.Mangers
         }
     }
 
+		public IEnumerable<ApartmentList> GetAllUserApartments(string id)
+		{
+			IEnumerable<Appartment> apartmentDB = _apartmentRepo.GetAllUserApartments(id);
 
+			if (apartmentDB == null)
+			{
+				return null;
+			}
+			else
+			{
+				var apartmentList = apartmentDB.Select(a => new ApartmentList
+				{
+					Id = a.Id,
+					Title = a.Title,
+					Area = a.Area,
+					Bathrooms = a.Bathrooms,
+					Bedrooms = a.Bathrooms,
+					MiniDescription = a.MiniDescription,
+					Address = a.Address,
+					AdDate = a.AdDate,
+					City = a.City,
+					MaxPrice = a.MaxPrice,
+					photos = a.Photos.Select(p => p.PhotoUrl).ToArray()
+				}).ToList();
 
+				return apartmentList;
+			}
+
+		}
+	}
 }
 

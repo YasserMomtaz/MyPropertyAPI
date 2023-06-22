@@ -58,6 +58,22 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
+
+		[HttpGet]
+		[Route("/getuserapartment/")]
+		public ActionResult<List<ApartmentList>> GetAllUserApartments()
+		{
+			string id = "2";
+			var UserApart = _buyApartment.GetAllUserApartments(id);
+			if (UserApart == null)
+			{
+				return BadRequest();
+			}
+			return UserApart.ToList();
+
+
+		}
+
     
     [HttpGet]
         [Route("/search/{page}/{CountPerPage}")]
@@ -83,4 +99,5 @@ namespace MyPropertyAPI.Controllers
 
 
     }
+
 }
