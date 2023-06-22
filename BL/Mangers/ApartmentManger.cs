@@ -148,7 +148,7 @@ namespace BL.Mangers
 		{
 			return _apartmentRepo.DeleteAppartement(Id);
 		}
-	}
+	
 
 
 
@@ -178,7 +178,7 @@ namespace BL.Mangers
             }).ToList();
 
         }
-    }
+    
 
 		public IEnumerable<ApartmentList> GetAllUserApartments(string id)
 		{
