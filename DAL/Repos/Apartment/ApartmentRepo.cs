@@ -154,7 +154,6 @@ namespace DAL.Repos.Apartment
 			var userApartments = _Context.Appartments.Include(a => a.Photos).Where(a => a.UserId == userId);
 			return userApartments;
 		}
-	}
 
 
        
@@ -304,8 +303,11 @@ namespace DAL.Repos.Apartment
                 return -1;
             }
         }
-
+        }
     }
+}
+
+    
 
 
 
