@@ -45,8 +45,8 @@ namespace MyPropertyAPI.Controllers
 		{
 			return _buyApartment.GetApartmentDetails(id);
 		}
-        [Authorize(Policy = "User")]
-        [HttpGet]
+/*        [Authorize(Policy = "User")]
+*/        [HttpGet]
 		[Route("/allfavorites")]
 		public ActionResult<List<ApartmentList>> GetAddedToFavorite()
 		{
@@ -56,7 +56,7 @@ namespace MyPropertyAPI.Controllers
 
 
 		}
-        [Authorize(Policy = "User")]
+/*        [Authorize(Policy = "User")]*/
         [HttpPost]
 		[Route("/addtofavorite/{apartId}")]
 		public ActionResult<ApartmentDetails> AddToFavorite(int apartId)
@@ -65,7 +65,7 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
-        [Authorize(Policy = "User")]
+/*        [Authorize(Policy = "User")]*/
         [HttpGet]
 		[Route("/getuserapartment/")]
 		public ActionResult<List<ApartmentList>> GetAllUserApartments()
@@ -92,7 +92,7 @@ namespace MyPropertyAPI.Controllers
         }
 
 
-        [Authorize(Policy = "Broker")]
+/*        [Authorize(Policy = "Broker")]*/
         [HttpGet]
         [Route("/getBrokerApartment")]
         public async Task<ActionResult<List<ApartmentList>>> GetBrokerApartment()
@@ -102,8 +102,8 @@ namespace MyPropertyAPI.Controllers
             return list.ToList();
 
         }
-        [Authorize(Policy = "Admin")]
-        [Authorize(Policy = "Broker")]
+/*        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Broker")]*/
         [HttpPost]
         [Route("/sellAppartement")]
         public  ActionResult SoldAppartement(SoldAppartementDto soldAppartement)
@@ -119,8 +119,8 @@ namespace MyPropertyAPI.Controllers
 			}
 
 		}
-        [Authorize(Policy = "Admin")]
-		[Authorize(Policy = "Broker")]
+/*        [Authorize(Policy = "Admin")]
+		[Authorize(Policy = "Broker")]*/
         [HttpDelete]
         [Route("/DeleteAppartement/{Id}")]
         public ActionResult DeleteAppartement(int Id)

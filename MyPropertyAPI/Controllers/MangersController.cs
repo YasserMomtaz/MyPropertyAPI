@@ -11,7 +11,7 @@ namespace MyPropertyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "Admin")]
+   /* [Authorize(Policy = "Admin")]*/
     public class MangersController : ControllerBase
     {
         private readonly IUersManger _UsersManger;

@@ -28,8 +28,8 @@ namespace MyPropertyAPI.Controllers
             _configuration = configuration;
         }
 
-        [Authorize(Policy = "User")]
-        [HttpPost]
+/*        [Authorize(Policy = "User")]
+*/        [HttpPost]
         [Route("AddAppartement")]
         public async Task<ActionResult> AddAppartement(SellingAppartementDto NewAppartement)
         {

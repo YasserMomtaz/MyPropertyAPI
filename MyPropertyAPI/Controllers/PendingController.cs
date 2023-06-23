@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MyPropertyAPI.Controllers
 {
-    [Authorize(Policy = "Admin")]
-    [Route("api/[controller]")]
+/*    [Authorize(Policy = "Admin")]
+*/    [Route("api/[controller]")]
     [ApiController]
     public class PendingController : ControllerBase
     {

@@ -96,6 +96,7 @@ namespace MyPropertyAPI
                     ValidateAudience = false,
                 };
             });
+
             // authorization
             builder.Services.AddAuthorization(options =>
             {
