@@ -10,7 +10,9 @@ namespace DAL.Repos.Apartment
 		/////////////////
 		IEnumerable<Appartment> GetUserApartments(string id);
 		void AddToFavorite(string userId, int apartId);
-		int SaveChanges();
+		void RemoveFromFavorite(string userId, int apartId);
+
+        int SaveChanges();
 
 		int sellAppartement(int Id, int soldPrice);
 		int DeleteAppartement(int Id);

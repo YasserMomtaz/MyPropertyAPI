@@ -3,7 +3,7 @@ using DAL.Data.Context;
 using DAL.Data.Models;
 using DAL.Migrations;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DAL.Repos.Apartment
 {
@@ -59,6 +59,19 @@ namespace DAL.Repos.Apartment
 
             }
 
+        }
+
+       
+
+        public void RemoveFromFavorite(string userId, int apartId)
+        {
+            var userapartement = _Context.UserAppartement.FirstOrDefault(a => a.UserId == userId && a.ApartementId == apartId);
+            if (userapartement != null)
+            {
+                _Context.UserAppartement.Remove(userapartement);
+
+            }
+           
         }
 
         public IEnumerable<DAL.Data.Models.Appartment>? GetUserApartments(string id)
