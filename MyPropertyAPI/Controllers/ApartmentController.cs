@@ -6,6 +6,7 @@ using BL.Dtos.Apartment;
 
 using BL.Mangers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyPropertyAPI.Controllers
 {
@@ -44,7 +45,8 @@ namespace MyPropertyAPI.Controllers
 		{
 			return _buyApartment.GetApartmentDetails(id);
 		}
-		[HttpGet]
+        [Authorize(Policy = "User")]
+        [HttpGet]
 		[Route("/allfavorites")]
 		public ActionResult<List<ApartmentList>> GetAddedToFavorite()
 		{
@@ -54,7 +56,8 @@ namespace MyPropertyAPI.Controllers
 
 
 		}
-		[HttpPost]
+        [Authorize(Policy = "User")]
+        [HttpPost]
 		[Route("/addtofavorite/{apartId}")]
 		public ActionResult<ApartmentDetails> AddToFavorite(int apartId)
 		{
@@ -62,8 +65,8 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
-
-		[HttpGet]
+        [Authorize(Policy = "User")]
+        [HttpGet]
 		[Route("/getuserapartment/")]
 		public ActionResult<List<ApartmentList>> GetAllUserApartments()
 		{
@@ -89,7 +92,7 @@ namespace MyPropertyAPI.Controllers
         }
 
 
-
+        [Authorize(Policy = "Broker")]
         [HttpGet]
         [Route("/getBrokerApartment")]
         public async Task<ActionResult<List<ApartmentList>>> GetBrokerApartment()
@@ -99,7 +102,8 @@ namespace MyPropertyAPI.Controllers
             return list.ToList();
 
         }
-
+        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Broker")]
         [HttpPost]
         [Route("/sellAppartement")]
         public  ActionResult SoldAppartement(SoldAppartementDto soldAppartement)
@@ -115,7 +119,9 @@ namespace MyPropertyAPI.Controllers
 			}
 
 		}
-		[HttpDelete]
+        [Authorize(Policy = "Admin")]
+		[Authorize(Policy = "Broker")]
+        [HttpDelete]
         [Route("/DeleteAppartement/{Id}")]
         public ActionResult DeleteAppartement(int Id)
 		{

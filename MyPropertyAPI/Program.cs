@@ -17,6 +17,7 @@ using DAL.Data.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
+using System.Security.Claims;
 
 namespace MyPropertyAPI
 {
@@ -95,11 +96,25 @@ namespace MyPropertyAPI
                     ValidateAudience = false,
                 };
             });
+            // authorization
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("User", policy => policy
+                    .RequireClaim(ClaimTypes.Role,"User"));
+
+                options.AddPolicy("Admin", policy => policy
+                    .RequireClaim(ClaimTypes.Role, "Admin"));
+
+                options.AddPolicy("Broker", policy => policy
+                .RequireClaim(ClaimTypes.Role, "Broker"));
+
+
+            });
 
 
 
 
-            
+
 
             var app = builder.Build();
 

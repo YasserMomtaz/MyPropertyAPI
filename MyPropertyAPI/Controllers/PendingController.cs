@@ -1,9 +1,11 @@
 ﻿using BL.Dtos.PendingProperty;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyPropertyAPI.Controllers
 {
+    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class PendingController : ControllerBase

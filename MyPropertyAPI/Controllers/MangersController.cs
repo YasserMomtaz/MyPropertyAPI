@@ -1,6 +1,7 @@
 ﻿using BL.Dtos.UserDtos;
 using BL.Mangers.Users;
 using DAL.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace MyPropertyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "Admin")]
     public class MangersController : ControllerBase
     {
         private readonly IUersManger _UsersManger;

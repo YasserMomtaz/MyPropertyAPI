@@ -2,6 +2,7 @@
 using BL.Dtos.UserDtos;
 using BL.Mangers.Users;
 using DAL.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,11 +28,12 @@ namespace MyPropertyAPI.Controllers
             _configuration = configuration;
         }
 
-       // [Authorize]
+        [Authorize(Policy = "User")]
         [HttpPost]
         [Route("AddAppartement")]
         public async Task<ActionResult> AddAppartement(SellingAppartementDto NewAppartement)
         {
+            //will be modified
 
             //var user = await UserManagerFromPackage.GetUserAsync(User);
 
