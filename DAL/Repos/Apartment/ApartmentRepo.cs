@@ -102,14 +102,15 @@ namespace DAL.Repos.Apartment
 
             if (minArea != 0)
             {
-                result = result.Where(a => a.Area > minArea).ToList();
+                result = result.Where(a => a.Area >= minArea).ToList();
                 newSearched.MinPrice = minPrice;
             }
 
 
             if (maxArea != 0)
             {
-                result = result.Where(a => a.Area < maxArea).ToList();
+                result = result.Where(a => a.Area <= maxArea).ToList();
+
 
             }
 
@@ -118,7 +119,7 @@ namespace DAL.Repos.Apartment
             {
 
 
-                result = result.Where(a => a.MaxPrice < maxPrice).ToList();
+                result = result.Where(a => a.MaxPrice <= maxPrice).ToList();
                 newSearched.MaxPrice = maxPrice;
 
             }
@@ -126,7 +127,7 @@ namespace DAL.Repos.Apartment
             if (minPrice != 0)
             {
 
-                result = result.Where(a => a.MaxPrice > minPrice).ToList();
+                result = result.Where(a => a.MaxPrice >= minPrice).ToList();
                 newSearched.MinPrice = minPrice;
             }
 

@@ -43,7 +43,7 @@ namespace DAL.Repos.PendingProperty
 
         public Appartment? GetById(int id)
         {
-            return _context.Appartments.Include(a=>a.User).FirstOrDefault(a=>a.Id==id);
+            return _context.Appartments.Include(a=>a.User).Include(a=>a.Photos).FirstOrDefault(a=>a.Id==id);
         }
 
         public IEnumerable<Appartment> GetAll()
