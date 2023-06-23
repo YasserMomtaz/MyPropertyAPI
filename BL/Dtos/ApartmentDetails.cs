@@ -30,5 +30,7 @@ namespace BL.Dtos
         public string? Code { get; set; } = "";
 
         public string[] Photos { get; set; }
+
+        public bool isFavorite { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using BL.Dtos.Apartment;
 using BL.Dtos.PendingProperty;
 
 using DAL.Data.Models;
+using DAL.Migrations;
 using DAL.Repos.Apartment;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
@@ -53,26 +54,27 @@ namespace BL.Mangers
 		{
 
 			IEnumerable<Appartment> result = await _apartmentRepo.Search(page ,CountPerPage,City, Address, minArea, maxArea, minPrice, maxPrice,type);
+            var fav = _apartmentRepo.GetUserApartments("1");
 
-
-			var SearchedItems= result.Select(a => new ApartmentList
+            var SearchedItems= result.Select(A => new ApartmentList
 			{
 
 
-                Id = a.Id,
-                Title = a.Title,
-                Area = a.Area,
-                Bathrooms = a.Bathrooms,
-                Bedrooms = a.Bathrooms,
-                MiniDescription = a.MiniDescription,
-                Address = a.Address,
-                AdDate = a.AdDate,
-                City = a.City,
-                MaxPrice = a.MaxPrice,
-                BrokerPhone = a.Broker.PhoneNumber,
-                BrokerEmail = a.Broker.Email,
-			    Type=a.Type,
-				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray()
+                Id = A.Id,
+                Title = A.Title,
+                Area = A.Area,
+                Bathrooms = A.Bathrooms,
+                Bedrooms = A.Bathrooms,
+                MiniDescription = A.MiniDescription,
+                Address = A.Address,
+                AdDate = A.AdDate,
+                City = A.City,
+                MaxPrice = A.MaxPrice,
+                BrokerPhone = A.Broker.PhoneNumber,
+                BrokerEmail = A.Broker.Email,
+			    Type=A.Type,
+				photos=A.Photos.Select(a=>a.PhotoUrl).ToArray(),
+                IsFavorite = null != fav.FirstOrDefault(a => a.Id == A.Id),
 
             }).ToList();
 
@@ -85,8 +87,9 @@ namespace BL.Mangers
         public ApartmentDetails GetApartmentDetails(int id)
 		{
 			Appartment ApartmentDB = _apartmentRepo.GetApartmentDetails(id);
-
-			return new ApartmentDetails
+            var fav = _apartmentRepo.GetUserApartments("1");
+			var favorite = fav.FirstOrDefault(a=>a.Id== id);
+            return new ApartmentDetails
 			{
 				Id = ApartmentDB.Id,
 				Title = ApartmentDB.Title,
@@ -104,6 +107,7 @@ namespace BL.Mangers
 				ViewsCount = ApartmentDB.ViewsCounter.Value,
 				Code= ApartmentDB.Code,
 				Photos = ApartmentDB.Photos.Select(a => a.PhotoUrl).ToArray(),
+				isFavorite=null!=favorite,
 			};
 
 		}
@@ -120,12 +124,17 @@ namespace BL.Mangers
 			_apartmentRepo.AddToFavorite(FavApartment.UserId, FavApartment.ApartementId);
 			_apartmentRepo.SaveChanges();
 		}
+        public void RemoveFromFavorite(string userId, int apartId)
+        {
 
-		IEnumerable<ApartmentList> IapartmentManger.GetAddedToFavorite(string id)
+            _apartmentRepo.RemoveFromFavorite(userId, apartId);
+            _apartmentRepo.SaveChanges();
+        }
+
+        IEnumerable<ApartmentList> IapartmentManger.GetAddedToFavorite(string id)
 		{
 			IEnumerable<Appartment> ApartmentDB = _apartmentRepo.GetUserApartments(id);
-
-			return ApartmentDB.Select(a => new ApartmentList
+            return ApartmentDB.Select(a => new ApartmentList
 			{
 				Id = a.Id,
 				Title = a.Title,
@@ -139,6 +148,7 @@ namespace BL.Mangers
 				MaxPrice = a.MaxPrice,
 				BrokerPhone = a.Broker.PhoneNumber,
 				BrokerEmail = a.Broker.Email,
+				IsFavorite=true,
 			}).ToList();
 
 

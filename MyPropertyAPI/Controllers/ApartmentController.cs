@@ -65,7 +65,15 @@ namespace MyPropertyAPI.Controllers
 			_buyApartment.AddToFavorite(userId, apartId);
 			return Ok();
 		}
-/*        [Authorize(Policy = "User")]*/
+        [HttpDelete]
+        [Route("/removeFromFavorite/{apartId}")]
+        public ActionResult<ApartmentDetails> RemoveFromFavorite(int apartId)
+        {
+            string userId = "1";
+            _buyApartment.RemoveFromFavorite(userId, apartId);
+            return Ok();
+        }
+        /*        [Authorize(Policy = "User")]*/
         [HttpGet]
 		[Route("/getuserapartment/")]
 		public ActionResult<List<ApartmentList>> GetAllUserApartments()
