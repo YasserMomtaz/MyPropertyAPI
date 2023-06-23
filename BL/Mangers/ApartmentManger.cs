@@ -6,6 +6,7 @@ using BL.Dtos.PendingProperty;
 
 using DAL.Data.Models;
 using DAL.Repos.Apartment;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace BL.Mangers
@@ -23,6 +24,7 @@ namespace BL.Mangers
 		public async Task<ApartmentListPaginationDto> GetAll(string type,int page,int CountPerPage)
 		{
 			IEnumerable<Appartment> ApartmentDB = await _apartmentRepo.GetAll(type,page,CountPerPage);
+			var fav = _apartmentRepo.GetUserApartments("1");
 			var apartmentList= ApartmentDB.Select(A => new ApartmentList
 			{
 				Id = A.Id,
@@ -39,6 +41,8 @@ namespace BL.Mangers
 				BrokerEmail = A.Broker.Email,
 				Type = A.Type,
 				photos = A.Photos.Select(a => a.PhotoUrl).ToArray(),
+				IsFavorite = null != fav.FirstOrDefault(a=>a.Id== A.Id) ,
+				
 			}).ToList();
 			var apartmentCount = _apartmentRepo.GetCount(type);
 			return new ApartmentListPaginationDto { ApartmentList= apartmentList ,ApartmentCount =apartmentCount};
