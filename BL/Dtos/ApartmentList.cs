@@ -26,7 +26,7 @@ namespace BL.Dtos
         public DateTime? AdDate { get; set; }
 		public int? Bedrooms { get; set; }
 		public int? Bathrooms { get; set; }
-		
+		public bool? IsFavorite { get; set; }
 		public string[] photos { get; set; }
 
 
