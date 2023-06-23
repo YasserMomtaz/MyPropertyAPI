@@ -70,6 +70,17 @@ namespace BL.Managers.PendingProperty
             {
                 Id = appartment.Id,
                 Title = appartment.Title,
+                MaxPrice= appartment.MaxPrice,
+                Address= appartment.Address,
+                AdDate= appartment.AdDate,
+                City = appartment.City,
+                Area = appartment.Area,
+                Description = appartment.Description,
+                Bedrooms = appartment.Bedrooms,
+                Bathrooms = appartment.Bathrooms,
+                Type = appartment.Type,
+                Code = appartment.Code,
+                Photos =appartment.Photos.Select(a=>a.PhotoUrl).ToArray(),
                 Username = appartment.User.UserName
             };
 

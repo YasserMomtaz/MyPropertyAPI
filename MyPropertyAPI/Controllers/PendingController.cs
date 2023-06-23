@@ -22,7 +22,7 @@ namespace MyPropertyAPI.Controllers
         }
         [HttpGet]
         [Route("/details/{id}")]
-        public ActionResult<PendingReadDto> GetById(int id)
+        public ActionResult<PendingReadDetailsDto> GetById(int id)
         {
             var appartment = _pendingPropertyManager.GetById(id);
             if (appartment == null) { return NotFound(); }
@@ -58,5 +58,7 @@ namespace MyPropertyAPI.Controllers
             return _pendingPropertyManager.GetAllBroker();
 
         }
+        
     }
+
 }
