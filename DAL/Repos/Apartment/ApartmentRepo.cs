@@ -76,7 +76,7 @@ namespace DAL.Repos.Apartment
 
         public IEnumerable<DAL.Data.Models.Appartment>? GetUserApartments(string id)
         {
-            var favapart = _Context.UserAppartement.Include(a => a.Appartment).ThenInclude(a => a.Broker).Where(a => a.UserId == id);
+            var favapart = _Context.UserAppartement.Include(a => a.Appartment).ThenInclude(a => a.Photos).Include(a=>a.Appartment).ThenInclude(a=>a.Broker).Where(a => a.UserId == id);
             var fav = favapart.Select(a => a.Appartment);
             return fav;
         }

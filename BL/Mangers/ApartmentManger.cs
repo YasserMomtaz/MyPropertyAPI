@@ -148,6 +148,7 @@ namespace BL.Mangers
 				MaxPrice = a.MaxPrice,
 				BrokerPhone = a.Broker.PhoneNumber,
 				BrokerEmail = a.Broker.Email,
+				photos=a.Photos.Select(a=>a.PhotoUrl).ToArray(),
 				IsFavorite=true,
 			}).ToList();
 
