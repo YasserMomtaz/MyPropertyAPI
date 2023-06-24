@@ -36,6 +36,7 @@ namespace MyPropertyAPI.Controllers
             //will be modified
 
             //var user = await UserManagerFromPackage.GetUserAsync(User);
+            //NewAppartement.UserId = user.Id;
 
             NewAppartement.UserId = "2";
 

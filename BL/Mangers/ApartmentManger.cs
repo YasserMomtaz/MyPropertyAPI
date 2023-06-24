@@ -22,10 +22,10 @@ namespace BL.Mangers
 		}
 
 
-		public async Task<ApartmentListPaginationDto> GetAll(string type,int page,int CountPerPage)
+		public async Task<ApartmentListPaginationDto> GetAll(string type,int page,int CountPerPage, string userId)
 		{
 			IEnumerable<Appartment> ApartmentDB = await _apartmentRepo.GetAll(type,page,CountPerPage);
-			var fav = _apartmentRepo.GetUserApartments("1");
+			var fav = _apartmentRepo.GetUserApartments(userId);
 			var apartmentList= ApartmentDB.Select(A => new ApartmentList
 			{
 				Id = A.Id,
@@ -50,11 +50,11 @@ namespace BL.Mangers
 
 		}
 
-		public async Task<ApartmentListPaginationDto> Search(int page, int CountPerPage,string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type)
+		public async Task<ApartmentListPaginationDto> Search(int page, int CountPerPage,string City, string Address, int minArea, int maxArea, int minPrice, int maxPrice, string type, string userId)
 		{
 
 			IEnumerable<Appartment> result = await _apartmentRepo.Search(page ,CountPerPage,City, Address, minArea, maxArea, minPrice, maxPrice,type);
-            var fav = _apartmentRepo.GetUserApartments("1");
+            var fav = _apartmentRepo.GetUserApartments(userId);
 
             var SearchedItems= result.Select(A => new ApartmentList
 			{
@@ -84,10 +84,10 @@ namespace BL.Mangers
 
         }
 
-        public ApartmentDetails GetApartmentDetails(int id)
+        public ApartmentDetails GetApartmentDetails(int id, string userId)
 		{
 			Appartment ApartmentDB = _apartmentRepo.GetApartmentDetails(id);
-            var fav = _apartmentRepo.GetUserApartments("1");
+            var fav = _apartmentRepo.GetUserApartments(userId);
 			var favorite = fav.FirstOrDefault(a=>a.Id== id);
             return new ApartmentDetails
 			{
@@ -166,11 +166,11 @@ namespace BL.Mangers
 
 
 
-        public async Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker()
+        public async Task<IEnumerable<ApartmentList>> GetAppartmentsOfBroker(string brokerId)
         {
 
 
-            IEnumerable<Appartment> result = await _apartmentRepo.GetAppartmentsOfBroker();
+            IEnumerable<Appartment> result = await _apartmentRepo.GetAppartmentsOfBroker(brokerId);
 
 			return result.Select(a => new ApartmentList
 			{

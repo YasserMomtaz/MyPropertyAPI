@@ -233,10 +233,10 @@ namespace DAL.Repos.Apartment
             return reversed;
         }
 
-            public async Task<IEnumerable<Appartment>>  GetAppartmentsOfBroker()
+            public async Task<IEnumerable<Appartment>>  GetAppartmentsOfBroker(string brokerId)
             {
 
-                var result = await _Context.Appartments.Include(a => a.Photos).Where(a => Convert.ToInt32(a.BrokerId) == 1).ToListAsync();
+                var result = await _Context.Appartments.Include(a => a.Photos).Where(a => a.BrokerId == brokerId).ToListAsync();
 
 
                 return result;
